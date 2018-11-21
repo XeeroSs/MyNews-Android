@@ -9,11 +9,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.app.xeross.mynews.R;
 
-public class ParamsActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     private EditText mEditTextSearch;
     private DatePicker mDatePicker;
@@ -23,7 +22,7 @@ public class ParamsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_params);
+        setContentView(R.layout.activity_search);
 
         // -------------------------
         this.confIdentification();
@@ -54,8 +53,6 @@ public class ParamsActivity extends AppCompatActivity {
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Test
-                Toast.makeText(ParamsActivity.this, "123", Toast.LENGTH_SHORT).show();
             }
         });
     }

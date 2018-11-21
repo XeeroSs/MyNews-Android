@@ -19,13 +19,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Controller.ParamsActivity"
+            android:name=".Controller.SearchActivity"
             android:parentActivityName=".Controller.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Controller.MainActivity" />
         </activity>
-        <activity android:name=".Controller.MenuActivity"></activity>
+        <activity android:name=".Controller.NotificationActivity"></activity>
     </application>
 
 </manifest>

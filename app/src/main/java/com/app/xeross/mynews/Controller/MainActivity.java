@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_activity_main_params:
-                this.confMenuVertical();
+                this.confNotification();
                 return true;
             case R.id.menu_activity_main_search:
                 this.confSearch();
@@ -63,14 +63,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void confMenuVertical() {
-        //Test
-        Intent i = new Intent(MainActivity.this, ParamsActivity.class);
+    private void confNotification() {
+        Intent i = new Intent(MainActivity.this, NotificationActivity.class);
         this.startActivity(i);
     }
 
     private void confSearch() {
-
+        Intent i = new Intent(MainActivity.this, SearchActivity.class);
+        this.startActivity(i);
     }
 
 }
