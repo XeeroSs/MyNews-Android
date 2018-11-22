@@ -16,6 +16,7 @@ public class TopStoriesFragment extends Fragment {
     public TopStoriesFragment() {
     }
 
+    // Fragment management
     public static TopStoriesFragment newInstance() {
         return (new TopStoriesFragment());
     }

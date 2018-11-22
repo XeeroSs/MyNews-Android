@@ -14,6 +14,8 @@ import com.app.xeross.mynews.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    // -------------------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,33 @@ public class MainActivity extends AppCompatActivity {
         // ------------------
     }
 
+    // -------------------------------------------------------------------------
+
+    // Toolbar creation
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity, menu);
+        return true;
+    }
+
+    // Clicks management of the toolbar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_activity_main_params:
+                this.confNotification();
+                return true;
+            case R.id.menu_activity_main_search:
+                this.confSearch();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+
+    // Menu configuration
     private void confMenu() {
 
         //ViewPager
@@ -43,31 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_activity_main_params:
-                this.confNotification();
-                return true;
-            case R.id.menu_activity_main_search:
-                this.confSearch();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
+    // Activity change - NotificationActivity
     private void confNotification() {
         Intent i = new Intent(MainActivity.this, NotificationActivity.class);
         this.startActivity(i);
     }
 
+    // Activity change - SearchActivity
     private void confSearch() {
         Intent i = new Intent(MainActivity.this, SearchActivity.class);
         this.startActivity(i);

@@ -14,11 +14,13 @@ public class PageAdapter extends FragmentPagerAdapter {
         super(mgr);
     }
 
+    // Number page
     @Override
     public int getCount() {
         return (3);
     }
 
+    // Gets fragment instance
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -33,6 +35,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         }
     }
 
+    // Gets page title
     @Override
     public CharSequence getPageTitle(int pos) {
         switch (pos) {

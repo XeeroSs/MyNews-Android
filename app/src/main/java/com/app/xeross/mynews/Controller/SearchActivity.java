@@ -19,6 +19,8 @@ public class SearchActivity extends AppCompatActivity {
     private CheckBox mArts, mPolitics, mBusiness, mSports, mEntrepreneurs, mTravel;
     private Button mButtonSearch;
 
+    // -------------------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,17 +29,29 @@ public class SearchActivity extends AppCompatActivity {
         // -------------------------
         this.confIdentification();
         this.confToolbar();
-        this.confOnClickListerner();
         // -------------------------
     }
 
+    @Override
+    protected void onResume() {
+        // -------------------------
+        this.confOnClickListerner();
+        // -------------------------
+        super.onResume();
+    }
+
+    // -------------------------------------------------------------------------
+
+    // Toolbar configuration
     private void confToolbar() {
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
+        // Backtrack button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
+    // Referencing graphic elements
     private void confIdentification() {
         mEditTextSearch = findViewById(R.id.edittext_search_params);
         mArts = findViewById(R.id.chechbox_arts);
@@ -49,6 +63,7 @@ public class SearchActivity extends AppCompatActivity {
         mButtonSearch = findViewById(R.id.buttun_search_params);
     }
 
+    // User's clicks
     private void confOnClickListerner() {
         mButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override

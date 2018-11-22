@@ -11,16 +11,13 @@ import android.view.ViewGroup;
 
 import com.app.xeross.mynews.Model.Adapter.CustomAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class MostPopularFragment extends Fragment {
 
 
     public MostPopularFragment() {
-        // Required empty public constructor
     }
 
+    // Fragment management
     public static MostPopularFragment newInstance() {
         return (new MostPopularFragment());
     }

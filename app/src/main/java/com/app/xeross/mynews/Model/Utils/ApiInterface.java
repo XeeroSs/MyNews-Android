@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Model.Adapter;
+package com.app.xeross.mynews.Model.Utils;
 
 import com.app.xeross.mynews.Model.MostPopular.ApiModelMostPopular;
 
@@ -15,14 +15,13 @@ import retrofit2.http.Query;
  */
 public interface ApiInterface {
 
+    // Retrofit object used to run a network request
     Retrofit ret = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    /*@GET("articlesearch.json")
-    Call<List<ApiModelArticleSearch>> getActu();*/
-
+    // REST request on the URL complement
     @GET("svc/mostpopular/v2/mostviewed/arts/7.json?api-key=")
     Call<List<ApiModelMostPopular>> getMostPopular(@Query("api_key") String apikey);
 }

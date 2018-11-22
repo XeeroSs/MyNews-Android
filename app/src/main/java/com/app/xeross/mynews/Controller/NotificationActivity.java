@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.app.xeross.mynews.Model.Adapter.ApiCalls;
+import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.MostPopular.ApiModelMostPopular;
 import com.app.xeross.mynews.R;
 
@@ -43,6 +43,7 @@ public class NotificationActivity extends AppCompatActivity implements ApiCalls.
 
     // -------------------------------------------------------------------------
 
+    // User's clicks
     public void confonClick() {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,11 +53,13 @@ public class NotificationActivity extends AppCompatActivity implements ApiCalls.
         });
     }
 
+    // Referencing graphic elements
     public void confId() {
         mButton = findViewById(R.id.testbutton);
         mTextView = findViewById(R.id.testTextView);
     }
 
+    // Toolbar configuration
     private void confToolbar() {
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);

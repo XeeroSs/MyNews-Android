@@ -19,6 +19,7 @@ public class BusinessFragment extends Fragment {
         return (new BusinessFragment());
     }
 
+    // Fragment management
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
