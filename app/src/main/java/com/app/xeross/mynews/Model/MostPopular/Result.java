@@ -1,90 +1,31 @@
 
 package com.app.xeross.mynews.Model.MostPopular;
 
+import java.util.HashMap;
 import java.util.List;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.util.Map;
 
 public class Result {
 
-    @SerializedName("url")
-    @Expose
-    private String url;
-    @SerializedName("adx_keywords")
-    @Expose
-    private String adxKeywords;
-    @SerializedName("column")
-    @Expose
-    private Object column;
-    @SerializedName("section")
-    @Expose
     private String section;
-    @SerializedName("byline")
-    @Expose
-    private String byline;
-    @SerializedName("type")
-    @Expose
-    private String type;
-    @SerializedName("title")
-    @Expose
+    private String subsection;
     private String title;
-    @SerializedName("abstract")
-    @Expose
     private String _abstract;
-    @SerializedName("published_date")
-    @Expose
+    private String url;
+    private String byline;
+    private String itemType;
+    private String updatedDate;
+    private String createdDate;
     private String publishedDate;
-    @SerializedName("source")
-    @Expose
-    private String source;
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("asset_id")
-    @Expose
-    private Integer assetId;
-    @SerializedName("views")
-    @Expose
-    private Integer views;
-    @SerializedName("des_facet")
-    @Expose
+    private String materialTypeFacet;
+    private String kicker;
     private List<String> desFacet = null;
-    @SerializedName("org_facet")
-    @Expose
     private List<String> orgFacet = null;
-    @SerializedName("per_facet")
-    @Expose
     private List<String> perFacet = null;
-    @SerializedName("geo_facet")
-    @Expose
     private List<String> geoFacet = null;
-    @SerializedName("media")
-    @Expose
-    private List<Medium> media = null;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getAdxKeywords() {
-        return adxKeywords;
-    }
-
-    public void setAdxKeywords(String adxKeywords) {
-        this.adxKeywords = adxKeywords;
-    }
-
-    public Object getColumn() {
-        return column;
-    }
-
-    public void setColumn(Object column) {
-        this.column = column;
-    }
+    private List<Multimedium> multimedia = null;
+    private String shortUrl;
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public String getSection() {
         return section;
@@ -94,20 +35,12 @@ public class Result {
         this.section = section;
     }
 
-    public String getByline() {
-        return byline;
+    public String getSubsection() {
+        return subsection;
     }
 
-    public void setByline(String byline) {
-        this.byline = byline;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setSubsection(String subsection) {
+        this.subsection = subsection;
     }
 
     public String getTitle() {
@@ -126,6 +59,46 @@ public class Result {
         this._abstract = _abstract;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getByline() {
+        return byline;
+    }
+
+    public void setByline(String byline) {
+        this.byline = byline;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public String getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        this.createdDate = createdDate;
+    }
+
     public String getPublishedDate() {
         return publishedDate;
     }
@@ -134,36 +107,20 @@ public class Result {
         this.publishedDate = publishedDate;
     }
 
-    public String getSource() {
-        return source;
+    public String getMaterialTypeFacet() {
+        return materialTypeFacet;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setMaterialTypeFacet(String materialTypeFacet) {
+        this.materialTypeFacet = materialTypeFacet;
     }
 
-    public Integer getId() {
-        return id;
+    public String getKicker() {
+        return kicker;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getAssetId() {
-        return assetId;
-    }
-
-    public void setAssetId(Integer assetId) {
-        this.assetId = assetId;
-    }
-
-    public Integer getViews() {
-        return views;
-    }
-
-    public void setViews(Integer views) {
-        this.views = views;
+    public void setKicker(String kicker) {
+        this.kicker = kicker;
     }
 
     public List<String> getDesFacet() {
@@ -198,12 +155,28 @@ public class Result {
         this.geoFacet = geoFacet;
     }
 
-    public List<Medium> getMedia() {
-        return media;
+    public List<Multimedium> getMultimedia() {
+        return multimedia;
     }
 
-    public void setMedia(List<Medium> media) {
-        this.media = media;
+    public void setMultimedia(List<Multimedium> multimedia) {
+        this.multimedia = multimedia;
+    }
+
+    public String getShortUrl() {
+        return shortUrl;
+    }
+
+    public void setShortUrl(String shortUrl) {
+        this.shortUrl = shortUrl;
+    }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

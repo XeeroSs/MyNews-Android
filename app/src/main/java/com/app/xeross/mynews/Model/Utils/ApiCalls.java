@@ -1,11 +1,12 @@
 package com.app.xeross.mynews.Model.Utils;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.app.xeross.mynews.Model.Adapter.CustomAdapter;
 import com.app.xeross.mynews.Model.MostPopular.ApiModelMostPopular;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,28 +23,29 @@ public class ApiCalls {
     private final static String API_KEY = "da4e42347e744f2cb790ff847b0aa6ec";
 
     // Method for the network request
-    public static void request(Callbacks callbacks) {
+    public static void request(Context context) {
 
         // WeakReference for avoid the memory leaks
-        final WeakReference<Callbacks> cw = new WeakReference<>(callbacks);
+        //final WeakReference<> cw = new WeakReference<>(callbacks);
+        final CustomAdapter mAdapter = new CustomAdapter(context);
+
 
         // Get Retrofit instance
-        ApiInterface apiInterface = ApiInterface.ret.create(ApiInterface.class);
-        Call<List<ApiModelMostPopular>> call = apiInterface.getMostPopular(API_KEY);
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<ApiModelMostPopular> call = apiInterface.getMostPopular();
 
         // Network request execution
-        call.enqueue(new Callback<List<ApiModelMostPopular>>() {
+        call.enqueue(new Callback<ApiModelMostPopular>() {
             @Override
-            public void onResponse(Call<List<ApiModelMostPopular>> call, Response<List<ApiModelMostPopular>> response) {
-                if (cw.get() != null)
-                    cw.get().onResponse(response.body());
-                Log.i("Reussi", "onResponse");
+            public void onResponse(Call<ApiModelMostPopular> call, Response<ApiModelMostPopular> response) {
+                if (response.isSuccessful()) {
+                    mAdapter.updateAnswers(response.body());
+                }
             }
 
             @Override
-            public void onFailure(Call<List<ApiModelMostPopular>> call, Throwable t) {
-                if (cw.get() != null) cw.get().onFailure();
-                Log.i("non Reussi", String.valueOf(t));
+            public void onFailure(Call<ApiModelMostPopular> call, Throwable t) {
+                Log.d("TAG", "Response = " + t.toString());
             }
         });
     }

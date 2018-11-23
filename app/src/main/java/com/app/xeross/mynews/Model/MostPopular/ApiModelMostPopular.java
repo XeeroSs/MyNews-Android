@@ -1,26 +1,18 @@
-
 package com.app.xeross.mynews.Model.MostPopular;
 
+import java.util.HashMap;
 import java.util.List;
-
-import com.app.xeross.mynews.Model.TopStories.Result;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.util.Map;
 
 public class ApiModelMostPopular {
 
-    @SerializedName("status")
-    @Expose
     private String status;
-    @SerializedName("copyright")
-    @Expose
     private String copyright;
-    @SerializedName("num_results")
-    @Expose
+    private String section;
+    private String lastUpdated;
     private Integer numResults;
-    @SerializedName("results")
-    @Expose
     private List<Result> results = null;
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public String getStatus() {
         return status;
@@ -38,6 +30,22 @@ public class ApiModelMostPopular {
         this.copyright = copyright;
     }
 
+    public String getSection() {
+        return section;
+    }
+
+    public void setSection(String section) {
+        this.section = section;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
     public Integer getNumResults() {
         return numResults;
     }
@@ -52,6 +60,14 @@ public class ApiModelMostPopular {
 
     public void setResults(List<Result> results) {
         this.results = results;
+    }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

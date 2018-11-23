@@ -71,7 +71,7 @@ public class NotificationActivity extends AppCompatActivity implements ApiCalls.
 
     private void execute() {
         this.startUpdate();
-        ApiCalls.request(this);
+       // ApiCalls.request(this);
     }
 
     @Override

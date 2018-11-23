@@ -25,7 +25,7 @@ public class BusinessFragment extends Fragment {
                              Bundle savedInstanceState) {
         RecyclerView mRecyclerView = new RecyclerView(getContext());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(new CustomAdapter());
+        mRecyclerView.setAdapter(new CustomAdapter(getContext()));
 
         return mRecyclerView;
     }
