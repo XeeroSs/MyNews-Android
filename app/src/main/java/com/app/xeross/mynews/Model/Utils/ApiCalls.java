@@ -1,13 +1,10 @@
 package com.app.xeross.mynews.Model.Utils;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.app.xeross.mynews.Model.Adapter.CustomAdapter;
 import com.app.xeross.mynews.Model.MostPopular.ApiModelMostPopular;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,13 +45,5 @@ public class ApiCalls {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });
-    }
-
-    // Get callbacks
-    public interface Callbacks {
-
-        void onResponse(@Nullable List<ApiModelMostPopular> mp);
-
-        void onFailure();
     }
 }

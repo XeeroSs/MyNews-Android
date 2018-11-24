@@ -1,20 +1,14 @@
-<LinearLayout
-    android:id="@+id/fragment_page_rootview"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_page_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.app.xeross.mynews.Controller.MainActivity"
-    android:gravity="center">
+    android:gravity="center"
+    tools:context="com.app.xeross.mynews.Controller.MainActivity">
 
-    <TextView
-        android:id="@+id/fragment_page_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dip"
-        android:text="Je suis la page 8"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:textColor="#fff"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

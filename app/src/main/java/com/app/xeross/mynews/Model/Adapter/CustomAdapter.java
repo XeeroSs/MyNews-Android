@@ -37,6 +37,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return 0;
     }
 
+    // RecyclerView update
     public void updateAnswers(ApiModelMostPopular items) {
         mApiModelMostPopularList.clear();
         mApiModelMostPopularList.addAll(items.getResults());

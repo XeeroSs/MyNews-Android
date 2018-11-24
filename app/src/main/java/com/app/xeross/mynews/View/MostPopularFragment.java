@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.app.xeross.mynews.Model.Adapter.CustomAdapter;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
+import com.app.xeross.mynews.R;
 
 public class MostPopularFragment extends Fragment {
 
@@ -23,20 +24,22 @@ public class MostPopularFragment extends Fragment {
         return (new MostPopularFragment());
     }
 
+    // Fragment view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        RecyclerView mRecyclerView = new RecyclerView(getContext());
+        View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
+        RecyclerView mRecyclerView = view.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(new CustomAdapter(getContext()));
-        mRecyclerView.setHasFixedSize(true);
-        execute(getContext());
+        executeRequestHTTP(getContext());
 
         return mRecyclerView;
     }
 
-    private void execute(Context context) {
+    // Method for the network request
+    private void executeRequestHTTP(Context context) {
         ApiCalls.request(context);
     }
 
