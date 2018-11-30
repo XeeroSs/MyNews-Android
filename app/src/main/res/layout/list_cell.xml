@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:layout_margin="5dp"
@@ -9,67 +10,88 @@
         android:id="@+id/imageview_recyclerview"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_gravity="center_vertical"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="3dp"
-        android:src="@drawable/ic_launcher_background"
-        android:layout_gravity="center_vertical"/>
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_launcher_background" />
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textsection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:maxLength="20"
+            android:text="Section > "
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textview_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:layout_marginStart="3dp"
-            android:textStyle="bold"
-            android:lines="1"
+            android:layout_marginTop="8dp"
             android:ellipsize="end"
-            android:textColor="@color/colorBlack"
+            android:lines="1"
             android:maxLength="20"
-            android:text="Test > Test" />
+            android:text="Section"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/textsection"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textview_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/colorBlack"
-            android:lines="1"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="22dp"
             android:ellipsize="end"
-            android:maxLength="8"
-            android:layout_marginTop="6dp"
-            android:text="06/14/18" />
+            android:lines="1"
+            android:maxLength="10"
+            android:text="date"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintBottom_toTopOf="@+id/textview_description"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/textview_description"
-            android:layout_width="276dp"
-            android:layout_height="35dp"
+            android:layout_width="278dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/textview_title"
-            android:layout_marginTop="1dp"
-            android:layout_marginStart="3dp"
-            android:textColor="@color/colorGrey"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:lines="2"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:ellipsize="end"
-            android:text="Test test Test test Test test Test test Test test Test test Test test Test test Test test Test test" />
-        
+            android:lines="2"
+            android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
+            android:textColor="@color/colorGrey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/colorLightGrey2"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorLightGrey2">
 
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

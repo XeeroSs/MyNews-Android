@@ -3,12 +3,14 @@ package com.app.xeross.mynews.Model.Utils;
 import android.content.Context;
 import android.util.Log;
 
-import com.app.xeross.mynews.Model.Adapter.CustomAdapter;
-import com.app.xeross.mynews.Model.MostPopular.ApiModelMostPopular;
+import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapter;
+import com.app.xeross.mynews.Model.MostPopular.Articles;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 
 /**
  * Created by XeroSs on 15/11/2018.
@@ -16,32 +18,52 @@ import retrofit2.Response;
 
 public class ApiCalls {
 
-    // API_KEY
-    private final static String API_KEY = "da4e42347e744f2cb790ff847b0aa6ec";
-
     // Method for the network request
-    public static void request(Context context) {
+    public static void requestMostPopular(Context context, final RecyclerViewAdapter recyclerViewAdapter) {
 
         // WeakReference for avoid the memory leaks
         //final WeakReference<> cw = new WeakReference<>(callbacks);
-        final CustomAdapter mAdapter = new CustomAdapter(context);
-
 
         // Get Retrofit instance
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<ApiModelMostPopular> call = apiInterface.getMostPopular();
+        Call<Articles> call = apiInterface.getMostPopular(API_KEY);
 
         // Network request execution
-        call.enqueue(new Callback<ApiModelMostPopular>() {
+        call.enqueue(new Callback<Articles>() {
             @Override
-            public void onResponse(Call<ApiModelMostPopular> call, Response<ApiModelMostPopular> response) {
+            public void onResponse(Call<Articles> call, Response<Articles> response) {
                 if (response.isSuccessful()) {
-                    mAdapter.updateAnswers(response.body());
+                    recyclerViewAdapter.updateAnswers(response.body());
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiModelMostPopular> call, Throwable t) {
+            public void onFailure(Call<Articles> call, Throwable t) {
+                Log.d("TAG", "Response = " + t.toString());
+            }
+        });
+    }
+
+    public static void requestTopStories(Context context, final RecyclerViewAdapter recyclerViewAdapter) {
+
+        // WeakReference for avoid the memory leaks
+        //final WeakReference<> cw = new WeakReference<>(callbacks);
+
+        // Get Retrofit instance
+        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<Articles> call = apiInterface.getTopStories(API_KEY);
+
+        // Network request execution
+        call.enqueue(new Callback<Articles>() {
+            @Override
+            public void onResponse(Call<Articles> call, Response<Articles> response) {
+                if (response.isSuccessful()) {
+                    recyclerViewAdapter.updateAnswers(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Articles> call, Throwable t) {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });

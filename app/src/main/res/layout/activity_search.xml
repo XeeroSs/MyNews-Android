@@ -38,6 +38,12 @@
             android:layout_weight="1.0"
             android:ems="10"
             android:text="06/11/2018"
+
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+
             android:inputType="date" />
 
         <EditText
@@ -48,6 +54,12 @@
             android:layout_marginEnd="15dp"
             android:layout_marginStart="15dp"
             android:layout_weight="1.0"
+
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+
             android:ems="10"
             android:text="07/11/2018"
             android:inputType="date" />

@@ -29,7 +29,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_arts"
+            android:id="@+id/nchechbox_arts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -40,7 +40,7 @@
             android:text="Arts" />
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_politics"
+            android:id="@+id/nchechbox_politics"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -60,7 +60,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_business"
+            android:id="@+id/nchechbox_business"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -71,7 +71,7 @@
             android:text="Business" />
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_sports"
+            android:id="@+id/nchechbox_sports"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -91,7 +91,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_entrepreneurs"
+            android:id="@+id/nchechbox_entrepreneurs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -102,7 +102,7 @@
             android:text="Entrepreneurs" />
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_travel"
+            android:id="@+id/nchechbox_travel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -130,6 +130,7 @@
         </LinearLayout>
 
         <Switch
+            android:id="@+id/switchnotification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -145,19 +146,6 @@
             android:textColor="@color/colorBlack" />
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/testbutton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Button" />
-
-    <TextView
-        android:id="@+id/testTextView"
-        android:text="Test"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 
 </LinearLayout>

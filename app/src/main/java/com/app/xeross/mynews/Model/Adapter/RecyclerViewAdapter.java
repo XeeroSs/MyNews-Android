@@ -1,8 +1,6 @@
 package com.app.xeross.mynews.Model.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,43 +8,43 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.xeross.mynews.Model.MostPopular.ApiModelMostPopular;
+import com.app.xeross.mynews.Model.MostPopular.Articles;
 import com.app.xeross.mynews.Model.MostPopular.Result;
 import com.app.xeross.mynews.R;
+import com.squareup.picasso.Picasso;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     Context context;
-    List<Result> mApiModelMostPopularList = new ArrayList<>();
+    List<Result> articles = new ArrayList<>();
 
     // Constructor
-    public CustomAdapter(Context c) {
+    public RecyclerViewAdapter(Context c) {
         context = c;
     }
 
     // Return the size of the list
     @Override
     public int getItemCount() {
-        if (mApiModelMostPopularList != null) {
-            return mApiModelMostPopularList.size();
+        if (articles != null) {
+            return articles.size();
         }
         return 0;
     }
 
     // RecyclerView update
-    public void updateAnswers(ApiModelMostPopular items) {
-        mApiModelMostPopularList.clear();
-        mApiModelMostPopularList.addAll(items.getResults());
+    public void updateAnswers(Articles items) {
+        articles.clear();
+        articles.addAll(items.getResults());
         notifyDataSetChanged();
     }
 
     // Creation new views
     @Override
-    public CustomAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.list_cell, parent, false);
         return new MyViewHolder(view);
@@ -55,14 +53,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     // Place the contents of a view
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.title.setText(mApiModelMostPopularList.get(position).getSection());
-        holder.description.setText(mApiModelMostPopularList.get(position).getTitle());
-        holder.date.setText(mApiModelMostPopularList.get(position).getPublishedDate());
+        holder.title.setText(articles.get(position).getSection());
+        holder.description.setText(articles.get(position).getTitle());
+        holder.date.setText(articles.get(position).getPublishedDate());
 
         try {
-            URL url = new URL(mApiModelMostPopularList.get(position).getMultimedia().get(0).getUrl());
-            Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-            holder.image.setImageBitmap(bmp);
+            Picasso.with(context).load(articles.get(position).getMultimedia().get(0).getMediaMetadata().get(0).getUrl()).into(holder.image);
         } catch (Exception e) {
             e.printStackTrace();
         }

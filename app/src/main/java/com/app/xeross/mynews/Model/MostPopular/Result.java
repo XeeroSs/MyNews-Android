@@ -1,5 +1,7 @@
-
 package com.app.xeross.mynews.Model.MostPopular;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +18,20 @@ public class Result {
     private String itemType;
     private String updatedDate;
     private String createdDate;
+    @SerializedName("published_date")
+    @Expose
     private String publishedDate;
     private String materialTypeFacet;
     private String kicker;
+    @SerializedName("des_facet")
+    @Expose
     private List<String> desFacet = null;
     private List<String> orgFacet = null;
     private List<String> perFacet = null;
     private List<String> geoFacet = null;
-    private List<Multimedium> multimedia = null;
+    @SerializedName("media")
+    @Expose
+    private List<Medium> multimedia = null;
     private String shortUrl;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -155,11 +163,11 @@ public class Result {
         this.geoFacet = geoFacet;
     }
 
-    public List<Multimedium> getMultimedia() {
+    public List<Medium> getMultimedia() {
         return multimedia;
     }
 
-    public void setMultimedia(List<Multimedium> multimedia) {
+    public void setMultimedia(List<Medium> multimedia) {
         this.multimedia = multimedia;
     }
 
