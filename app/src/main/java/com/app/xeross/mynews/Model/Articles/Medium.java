@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Model.MostPopular;
+package com.app.xeross.mynews.Model.Articles;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.app.xeross.mynews.Model.MostPopular.Articles;
-import com.app.xeross.mynews.Model.MostPopular.Result;
+import com.app.xeross.mynews.Model.Articles.Articles;
+import com.app.xeross.mynews.Model.Articles.Result;
 import com.app.xeross.mynews.R;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +33,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             return articles.size();
         }
         return 0;
+    }
+
+    public Result getTests(int position) {
+        return this.articles.get(position);
     }
 
     // RecyclerView update
@@ -78,6 +82,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             description = itemView.findViewById(R.id.textview_description);
             image = itemView.findViewById(R.id.imageview_recyclerview);
             date = itemView.findViewById(R.id.textview_date);
+
 
         }
 

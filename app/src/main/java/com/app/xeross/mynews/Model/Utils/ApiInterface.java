@@ -1,7 +1,7 @@
 package com.app.xeross.mynews.Model.Utils;
 
 import com.app.xeross.mynews.Model.ArticleSearch.ApiArticleSearch;
-import com.app.xeross.mynews.Model.MostPopular.Articles;
+import com.app.xeross.mynews.Model.Articles.Articles;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

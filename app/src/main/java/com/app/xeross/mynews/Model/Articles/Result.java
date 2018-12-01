@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Model.MostPopular;
+package com.app.xeross.mynews.Model.Articles;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,6 +13,8 @@ public class Result {
     private String subsection;
     private String title;
     private String _abstract;
+    @SerializedName("url")
+    @Expose
     private String url;
     private String byline;
     private String itemType;

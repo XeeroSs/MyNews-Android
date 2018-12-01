@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapter;
-import com.app.xeross.mynews.Model.MostPopular.Articles;
+import com.app.xeross.mynews.Model.Articles.Articles;
 
 import retrofit2.Call;
 import retrofit2.Callback;
