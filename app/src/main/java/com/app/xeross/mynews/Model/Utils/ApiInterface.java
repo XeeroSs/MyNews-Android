@@ -21,4 +21,7 @@ public interface ApiInterface {
 
     @GET("svc/topstories/v2/home.json")
     Call<Articles> getTopStories(@Query("api-key") String apikey);
+
+    @GET("svc/topstories/v2/technology.json")
+    Call<Articles> getTechnology(@Query("api-key") String apikey);
 }

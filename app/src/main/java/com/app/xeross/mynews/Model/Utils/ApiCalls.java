@@ -1,6 +1,5 @@
 package com.app.xeross.mynews.Model.Utils;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapter;
@@ -19,17 +18,8 @@ import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 public class ApiCalls {
 
     // Method for the network request
-    public static void requestMostPopular(Context context, final RecyclerViewAdapter recyclerViewAdapter) {
-
-        // WeakReference for avoid the memory leaks
-        //final WeakReference<> cw = new WeakReference<>(callbacks);
-
-        // Get Retrofit instance
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Articles> call = apiInterface.getMostPopular(API_KEY);
-
-        // Network request execution
-        call.enqueue(new Callback<Articles>() {
+    public static void requestHTTPTopStories(final RecyclerViewAdapter recyclerViewAdapter, Call<Articles> calls) {
+        calls.enqueue(new Callback<Articles>() {
             @Override
             public void onResponse(Call<Articles> call, Response<Articles> response) {
                 if (response.isSuccessful()) {
@@ -44,16 +34,11 @@ public class ApiCalls {
         });
     }
 
-    public static void requestTopStories(Context context, final RecyclerViewAdapter recyclerViewAdapter) {
+    public static void requestHTTPMostStories(final RecyclerViewAdapter recyclerViewAdapter) {
 
-        // WeakReference for avoid the memory leaks
-        //final WeakReference<> cw = new WeakReference<>(callbacks);
-
-        // Get Retrofit instance
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Articles> call = apiInterface.getTopStories(API_KEY);
+        Call<Articles> call = apiInterface.getMostPopular(API_KEY);
 
-        // Network request execution
         call.enqueue(new Callback<Articles>() {
             @Override
             public void onResponse(Call<Articles> call, Response<Articles> response) {

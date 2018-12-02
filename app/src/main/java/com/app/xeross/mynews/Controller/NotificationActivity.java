@@ -14,9 +14,10 @@ import com.app.xeross.mynews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.app.xeross.mynews.Model.Utils.Constants.SP;
+
 public class NotificationActivity extends AppCompatActivity {
 
-    public static final String SP = "SP";
     @BindView(R.id.nchechbox_arts)
     CheckBox mArts;
     @BindView(R.id.nchechbox_politics)
@@ -65,25 +66,21 @@ public class NotificationActivity extends AppCompatActivity {
     private void confToolbar() {
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void confSwitch(Switch aSwitch) {
-
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
                 if (isChecked) {
                 } else {
                 }
-
                 SharedPreferences preferences = getSharedPreferences(SP, 0);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("switchkey", isChecked);
                 editor.apply();
-
             }
         });
 

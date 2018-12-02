@@ -35,7 +35,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return 0;
     }
 
-    public Result getTests(int position) {
+    public Result getPosition(int position) {
         return this.articles.get(position);
     }
 
@@ -62,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.date.setText(articles.get(position).getPublishedDate());
 
         try {
-            Picasso.with(context).load(articles.get(position).getMultimedia().get(0).getMediaMetadata().get(0).getUrl()).into(holder.image);
+            //Picasso.with(context).load(articles.get(position).getMultimedia().get(0).getMediaMetadata().get(0).getUrl()).into(holder.image);
         } catch (Exception e) {
             e.printStackTrace();
         }

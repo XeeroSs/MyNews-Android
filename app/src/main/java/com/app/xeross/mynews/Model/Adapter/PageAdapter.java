@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.app.xeross.mynews.View.BusinessFragment;
 import com.app.xeross.mynews.View.MostPopularFragment;
+import com.app.xeross.mynews.View.TechnologyFragment;
 import com.app.xeross.mynews.View.TopStoriesFragment;
 
 public class PageAdapter extends FragmentPagerAdapter {
@@ -29,7 +29,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1:
                 return MostPopularFragment.newInstance();
             case 2:
-                return BusinessFragment.newInstance();
+                return TechnologyFragment.newInstance();
             default:
                 return null;
         }
@@ -44,7 +44,7 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1:
                 return "MOST POPULAR";
             case 2:
-                return "BUSINESS";
+                return "TECHNOLOGY";
             default:
                 return null;
         }
