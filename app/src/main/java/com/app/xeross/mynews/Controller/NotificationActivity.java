@@ -1,5 +1,6 @@
 package com.app.xeross.mynews.Controller;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -43,7 +44,7 @@ public class NotificationActivity extends AppCompatActivity {
         ButterKnife.bind(NotificationActivity.this);
 
         // --------------------
-        this.confSwitch(mSwitch);
+        this.confSwitch(mSwitch, this);
         // --------------------
     }
 
@@ -56,8 +57,6 @@ public class NotificationActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    // -------------------------------------------------------------------------
-
     // User's clicks
     public void confonClick() {
     }
@@ -66,11 +65,11 @@ public class NotificationActivity extends AppCompatActivity {
     private void confToolbar() {
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void confSwitch(Switch aSwitch) {
+    private void confSwitch(Switch aSwitch, final Context context) {
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -87,5 +86,8 @@ public class NotificationActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(SP, 0);
         boolean silent = preferences.getBoolean("switchkey", false);
         aSwitch.setChecked(silent);
+    }
+
+    private void confNotification(Context context) {
     }
 }

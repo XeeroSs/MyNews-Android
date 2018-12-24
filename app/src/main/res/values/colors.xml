@@ -10,4 +10,7 @@
     <color name="colorGrey">#808080</color>
     <color name="colorLightGrey2">#D8D8D8</color>
 
+    <color name="colorRed">#ff4040</color>
+    <color name="colorGreen">#3399ff</color>
+
 </resources>

@@ -2,14 +2,13 @@ package com.app.xeross.mynews.Model.Utils;
 
 import android.util.Log;
 
-import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapter;
+import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapterMost;
+import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapterTop;
 import com.app.xeross.mynews.Model.Articles.Articles;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 
 /**
  * Created by XeroSs on 15/11/2018.
@@ -18,12 +17,12 @@ import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 public class ApiCalls {
 
     // Method for the network request
-    public static void requestHTTPTopStories(final RecyclerViewAdapter recyclerViewAdapter, Call<Articles> calls) {
+    public static void requestHTTP(final RecyclerViewAdapterMost recyclerViewAdapterMost, Call<Articles> calls) {
         calls.enqueue(new Callback<Articles>() {
             @Override
             public void onResponse(Call<Articles> call, Response<Articles> response) {
                 if (response.isSuccessful()) {
-                    recyclerViewAdapter.updateAnswers(response.body());
+                    recyclerViewAdapterMost.updateAnswers(response.body());
                 }
             }
 
@@ -34,16 +33,12 @@ public class ApiCalls {
         });
     }
 
-    public static void requestHTTPMostStories(final RecyclerViewAdapter recyclerViewAdapter) {
-
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Articles> call = apiInterface.getMostPopular(API_KEY);
-
-        call.enqueue(new Callback<Articles>() {
+    public static void requestHTTPTop(final RecyclerViewAdapterTop recyclerViewAdapterMost, Call<Articles> calls) {
+        calls.enqueue(new Callback<Articles>() {
             @Override
             public void onResponse(Call<Articles> call, Response<Articles> response) {
                 if (response.isSuccessful()) {
-                    recyclerViewAdapter.updateAnswers(response.body());
+                    recyclerViewAdapterMost.updateAnswers(response.body());
                 }
             }
 
@@ -53,4 +48,5 @@ public class ApiCalls {
             }
         });
     }
+
 }

@@ -6,16 +6,36 @@
     android:layout_margin="5dp"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/imageview_recyclerview"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="3dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:src="@drawable/ic_launcher_background" />
+     <android.support.constraint.ConstraintLayout
+         android:layout_width="wrap_content"
+         android:layout_gravity="center"
+         android:layout_height="match_parent">
+
+         <ImageView
+             android:id="@+id/framelayout_color"
+             android:layout_width="58dp"
+             android:layout_height="58dp"
+             android:background="@color/colorRed"
+             app:layout_constraintBottom_toBottomOf="@+id/imageview_recyclerview"
+             app:layout_constraintEnd_toEndOf="@+id/imageview_recyclerview"
+             app:layout_constraintStart_toStartOf="@+id/imageview_recyclerview"
+             app:layout_constraintTop_toTopOf="@+id/imageview_recyclerview" />
+
+         <ImageView
+             android:id="@+id/imageview_recyclerview"
+             android:layout_width="55dp"
+             android:layout_height="55dp"
+             android:layout_marginBottom="8dp"
+             android:layout_marginEnd="8dp"
+             android:layout_marginStart="8dp"
+             android:layout_marginTop="8dp"
+             android:src="@drawable/ic_launcher_background"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent" />
+
+     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +50,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLength="20"
-            android:text="Section > "
+            android:text=""
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +64,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLength="20"
-            android:text="Section"
+            android:text=""
             android:textColor="@color/colorBlack"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/textsection"
@@ -60,7 +80,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:maxLength="10"
-            android:text="date"
+            android:text=""
             android:textColor="@color/colorBlack"
             app:layout_constraintBottom_toTopOf="@+id/textview_description"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -76,7 +96,7 @@
             android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:lines="2"
-            android:text="TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle"
+            android:text=""
             android:textColor="@color/colorGrey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -86,8 +106,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/colorLightGrey2">
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorLightGrey2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textview_description">
 
         </LinearLayout>
 

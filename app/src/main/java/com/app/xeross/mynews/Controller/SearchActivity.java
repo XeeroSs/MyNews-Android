@@ -92,11 +92,13 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                // Date
-                String datefrom = mDateFrom.getText().toString();
-                String dateto = mDateTo.getText().toString();
+                String[] datefromm = mDateFrom.getText().toString().split("/");
+                String[] datetoo = mDateTo.getText().toString().split("/");
 
-                Toast.makeText(SearchActivity.this, "To " + datefrom + " from " + dateto, Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchActivity.this, String.valueOf("From "
+                        + datefromm[0] + datefromm[1] + datefromm[2] + " to "
+                        + datetoo[0] + datetoo[1] + datetoo[2]), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -129,6 +131,7 @@ public class SearchActivity extends AppCompatActivity {
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         datePickerDialog.show();
     }
+
 
     // Configuration the Calendar and retrieve the current time
     private void confCalendar(EditText editTextFrom, EditText editTextTo) {

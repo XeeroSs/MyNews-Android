@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.app.xeross.mynews.View.MovieFragment;
 import com.app.xeross.mynews.View.MostPopularFragment;
 import com.app.xeross.mynews.View.TechnologyFragment;
 import com.app.xeross.mynews.View.TopStoriesFragment;
@@ -17,7 +18,7 @@ public class PageAdapter extends FragmentPagerAdapter {
     // Number page
     @Override
     public int getCount() {
-        return (3);
+        return (4);
     }
 
     // Gets fragment instance
@@ -30,6 +31,8 @@ public class PageAdapter extends FragmentPagerAdapter {
                 return MostPopularFragment.newInstance();
             case 2:
                 return TechnologyFragment.newInstance();
+            case 3:
+                return MovieFragment.newInstance();
             default:
                 return null;
         }
@@ -44,7 +47,9 @@ public class PageAdapter extends FragmentPagerAdapter {
             case 1:
                 return "MOST POPULAR";
             case 2:
-                return "TECHNOLOGY";
+                return "TECHNO";
+            case 3:
+                return "Movie";
             default:
                 return null;
         }
