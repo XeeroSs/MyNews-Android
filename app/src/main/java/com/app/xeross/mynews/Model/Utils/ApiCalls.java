@@ -2,8 +2,8 @@ package com.app.xeross.mynews.Model.Utils;
 
 import android.util.Log;
 
-import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapterMost;
-import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapterTop;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
 import com.app.xeross.mynews.Model.Articles.Articles;
 
 import retrofit2.Call;

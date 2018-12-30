@@ -1,6 +1,9 @@
-package com.app.xeross.mynews.View;
+package com.app.xeross.mynews.Controller.Fragment;
 
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,44 +13,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapterTop;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
 import com.app.xeross.mynews.Model.Articles.Articles;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
 import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
-import com.app.xeross.mynews.Model.Utils.WebViewActivity;
+import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
+import static com.app.xeross.mynews.Model.Utils.Constants.SI;
+import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
-public class TechnologyFragment extends Fragment {
+public class TopStoriesFragment extends Fragment {
 
     public ArrayList<Articles.Result> mItems = new ArrayList<>();
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private RecyclerViewAdapterTop mRecyclerViewAdapterTop;
+    private SharedPreferences preferences;
 
-    public TechnologyFragment() {
-    }
 
-    public static TechnologyFragment newInstance() {
-        return (new TechnologyFragment());
+    public TopStoriesFragment() {
     }
 
     // Fragment management
+    public static TopStoriesFragment newInstance() {
+        return (new TopStoriesFragment());
+    }
+
+    // Fragment view
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_technology, container, false);
+        View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
         ButterKnife.bind(this, view);
+
+        preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
+        this.loadColor(getActivity());
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -63,22 +77,42 @@ public class TechnologyFragment extends Fragment {
 
     // Method for the network request
     private void executeRequestHTTP(ApiInterface apiInterface) {
-        ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("technology", API_KEY));
+        ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
     }
 
     // Get the position and the click an item
     private void confOnClickRecyclerView() {
-        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_technology)
+        ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_top_stories)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         Articles.Result result = mRecyclerViewAdapterTop.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
+                        result.setColor("#6666ff");
+                        saveColor(getActivity());
                         getContext().startActivity(intent);
                     }
                 });
 
     }
 
+    private void saveColor(Context context) {
+        SharedPreferences.Editor edit = preferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(mItems);
+        edit.putString(SI, json);
+        edit.apply();
+    }
+
+    private void loadColor(Context context) {
+        Gson gson = new Gson();
+        String json = preferences.getString(SI, null);
+        Type type = new TypeToken<ArrayList<Articles.Result>>() {
+        }.getType();
+        mItems = gson.fromJson(json, type);
+        if (mItems == null) {
+            mItems = new ArrayList<>();
+        }
+    }
 }

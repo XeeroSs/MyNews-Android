@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Controller;
+package com.app.xeross.mynews.Controller.Activity;
 
 import android.app.DatePickerDialog;
 import android.graphics.Color;
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -80,10 +81,24 @@ public class SearchActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
         // Backtrack button
-        if (getSupportActionBar() != null) {
-            ActionBar actionBar = getSupportActionBar();
+        if (this.getSupportActionBar() != null) {
+            ActionBar actionBar = this.getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
         }
+
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // User's clicks

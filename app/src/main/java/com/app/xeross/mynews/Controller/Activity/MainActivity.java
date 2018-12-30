@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Controller;
+package com.app.xeross.mynews.Controller.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.app.xeross.mynews.Model.Adapter.PageAdapter;
-import com.app.xeross.mynews.Model.Adapter.RecyclerViewAdapterMost;
+import com.app.xeross.mynews.View.Adapter.PageAdapter;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
 import com.app.xeross.mynews.R;
 
 import butterknife.BindView;

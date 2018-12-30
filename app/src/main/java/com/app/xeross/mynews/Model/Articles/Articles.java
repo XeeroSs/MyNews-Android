@@ -69,6 +69,7 @@ public class Articles {
         @SerializedName("media")
         @Expose
         private List<Medium> multimedia = null;
+        private String color;
 
         public String getSection() {
             return section;
@@ -96,6 +97,14 @@ public class Articles {
 
         public List<Multimedium> getMultimedias() {
             return media;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
         }
     }
 

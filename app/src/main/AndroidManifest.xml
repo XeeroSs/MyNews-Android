@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
 
     </uses-permission>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -16,7 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Controller.MainActivity">
+        <activity android:name=".Controller.Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,14 +25,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Controller.SearchActivity"
-            android:parentActivityName=".Controller.MainActivity">
+            android:name=".Controller.Activity.SearchActivity"
+            android:parentActivityName=".Controller.Activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controller.MainActivity" />
+                android:value=".Controller.Activity.MainActivity" />
         </activity>
-        <activity android:name=".Controller.NotificationActivity" />
-        <activity android:name=".Model.Utils.WebViewActivity"></activity>
+        <activity android:name=".Controller.Activity.NotificationActivity" />
+        <activity android:name=".Controller.Activity.WebViewActivity"></activity>
     </application>
 
 </manifest>
