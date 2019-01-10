@@ -1,22 +1,33 @@
 package com.app.xeross.mynews.Controller.Activity;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.app.xeross.mynews.Model.Articles.Articles;
+import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.R;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,22 +37,16 @@ import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    @BindView(R.id.nchechbox_arts)
-    CheckBox mArts;
-    @BindView(R.id.nchechbox_politics)
-    CheckBox mPolitics;
-    @BindView(R.id.nchechbox_business)
-    CheckBox mBusiness;
-    @BindView(R.id.nchechbox_sports)
-    CheckBox mSports;
-    @BindView(R.id.nchechbox_entrepreneurs)
-    CheckBox mEntrepreneurs;
-    @BindView(R.id.nchechbox_travel)
-    CheckBox mTravel;
+
+    public ArrayList<Articles> mItems = new ArrayList<>();
     @BindView(R.id.switchnotification)
     Switch mSwitch;
-    @BindView(R.id.buttontextnotification)
-    Button mButton;
+    private NotificationManager notifManager;
+    private RecyclerViewAdapterMost mRecyclerViewAdapterMost;
+    private RecyclerView mRecyclerView;
+    private List<Articles.Result> article;
+    private CharSequence name = "Notification Title";
+    private String description = "Notification Description";
 
     // -------------------------------------------------------------------------
 
@@ -51,30 +56,16 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         ButterKnife.bind(NotificationActivity.this);
-
-        // --------------------
-        this.confSwitch(mSwitch, this);
-        // --------------------
+        mRecyclerViewAdapterMost = new RecyclerViewAdapterMost();
     }
 
     @Override
     protected void onResume() {
         // --------------------
-        this.confonClick();
         this.confToolbar();
+        this.confSwitch(this);
         // --------------------
         super.onResume();
-    }
-
-    // User's clicks
-    public void confonClick() {
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(NotificationActivity.this, "Test", Toast.LENGTH_SHORT).show();
-                createNotification();
-            }
-        });
     }
 
     // Toolbar configuration
@@ -90,7 +81,6 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -102,11 +92,14 @@ public class NotificationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void confSwitch(Switch aSwitch, final Context context) {
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    private void confSwitch(final Context context) {
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    createNotification(NotificationActivity.this);
+                } else {
+                    stopNotification(NotificationActivity.this);
                 }
                 SharedPreferences preferences = getSharedPreferences(SP, 0);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -116,26 +109,39 @@ public class NotificationActivity extends AppCompatActivity {
         });
 
         SharedPreferences preferences = getSharedPreferences(SP, 0);
-        boolean silent = preferences.getBoolean("switchkey", false);
-        aSwitch.setChecked(silent);
+        boolean sPreferences = preferences.getBoolean("switchkey", false);
+        mSwitch.setChecked(sPreferences);
     }
 
-    private final void createNotification() {
+    public void createNotification(Context context) {
+        ApiCalls.request(context);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            Intent i = new Intent(context, MainActivity.class);
+            CharSequence name = "Notification Title";
+            String description = "Notification Description";
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
+            NotificationChannel channel = new NotificationChannel("12", name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "12")
+                    .setContentTitle("Section: ")
+                    .setContentIntent(pendingIntent)
+                    .setSmallIcon(android.R.drawable.alert_dark_frame)
+                    .setAutoCancel(true)
+                    .setContentText("123")
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        final NotificationManager mNotification = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Notification.Builder builder = new Notification.Builder(this, "0")
-                .setWhen(System.currentTimeMillis())
-                .setTicker("test")
-                .setSmallIcon(R.drawable.date_from)
-                .setContentTitle("test")
-                .setContentText("test");
-
-        mNotification.notify(NOTIFICATION_ID, builder.build());
+            Notification notification = mBuilder.build();
+            notificationManager.notify(NOTIFICATION_ID, notification);
+        }
     }
 
-    private final void stopNotification() {
-        final NotificationManager mNotification = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotification.cancel(NOTIFICATION_ID);
+    public void stopNotification(Context context) {
+        final NotificationManager mNotification = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (mNotification != null) {
+            mNotification.cancel(NOTIFICATION_ID);
+        }
     }
 }

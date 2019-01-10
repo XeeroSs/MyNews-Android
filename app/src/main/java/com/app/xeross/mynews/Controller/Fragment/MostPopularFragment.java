@@ -13,18 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
+import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.Model.Articles.Articles;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
 import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
-import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -42,6 +39,7 @@ public class MostPopularFragment extends Fragment {
     RecyclerView mRecyclerView;
     private RecyclerViewAdapterMost mRecyclerViewAdapterMost;
     private SharedPreferences preferences;
+    private String i = "#fff333";
 
     public MostPopularFragment() {
     }
@@ -59,7 +57,7 @@ public class MostPopularFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
-        this.loadColor(getActivity());
+        this.loadColor();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -88,30 +86,23 @@ public class MostPopularFragment extends Fragment {
                         Articles.Result result = mRecyclerViewAdapterMost.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
-                        result.setColor("#6666ff");
-                        saveColor(getActivity());
+                        String str = "#6666ff";
+                        result.setColor(str);
+                        saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
 
     }
 
-    private void saveColor(Context context) {
-        SharedPreferences.Editor edit = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(mItems);
-        edit.putString(SI, json);
-        edit.apply();
+    private void saveColor(String color) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SI, color);
+        editor.apply();
     }
 
-    private void loadColor(Context context) {
-        Gson gson = new Gson();
-        String json = preferences.getString(SI, null);
-        Type type = new TypeToken<ArrayList<Articles.Result>>() {
-        }.getType();
-        mItems = gson.fromJson(json, type);
-        if (mItems == null) {
-            mItems = new ArrayList<>();
-        }
+    private String loadColor() {
+        i = preferences.getString(SI, null);
+        return i;
     }
 }

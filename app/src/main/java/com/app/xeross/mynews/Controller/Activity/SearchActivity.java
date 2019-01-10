@@ -1,45 +1,43 @@
 package com.app.xeross.mynews.Controller.Activity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.app.xeross.mynews.R;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.app.xeross.mynews.Model.Utils.Constants.SP;
+import static com.app.xeross.mynews.Model.Utils.Constants.cHASHMAP;
+
 public class SearchActivity extends AppCompatActivity {
 
+    private static HashMap<String, String> query = new HashMap<>();
     @BindView(R.id.edittext_search_params)
     EditText mEditTextSearch;
-    @BindView(R.id.chechbox_arts)
-    CheckBox mArts;
-    @BindView(R.id.chechbox_politics)
-    CheckBox mPolitics;
-    @BindView(R.id.chechbox_business)
-    CheckBox mBusiness;
-    @BindView(R.id.chechbox_sports)
-    CheckBox mSports;
-    @BindView(R.id.chechbox_entrepreneurs)
-    CheckBox mEntrepreneurs;
-    @BindView(R.id.chechbox_travel)
-    CheckBox mTravel;
     @BindView(R.id.buttun_search_params)
     Button mButtonSearch;
     @BindView(R.id.date_from)
@@ -51,6 +49,22 @@ public class SearchActivity extends AppCompatActivity {
 
     // -------------------------------------------------------------------------
 
+    public SearchActivity() {
+    }
+
+    public static HashMap<String, String> loadResult(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SP, MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(cHASHMAP, null);
+        Type type = new TypeToken<HashMap<String, String>>() {
+        }.getType();
+        HashMap<String, String> query = gson.fromJson(json, type);
+        if (query == null) {
+            query = new HashMap<>();
+        }
+        return query;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,20 +75,22 @@ public class SearchActivity extends AppCompatActivity {
         // -------------------------
         this.confToolbar();
         this.confCalendar(mDateFrom, mDateTo);
+        mButtonSearch.setEnabled(false);
         // -------------------------
     }
+
+    // -------------------------------------------------------------------------
 
     @Override
     protected void onResume() {
 
         // -------------------------
         this.confOnClickListerner();
+        this.confEditText();
         // -------------------------
 
         super.onResume();
     }
-
-    // -------------------------------------------------------------------------
 
     // Toolbar configuration
     private void confToolbar() {
@@ -88,7 +104,6 @@ public class SearchActivity extends AppCompatActivity {
         }
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -107,12 +122,11 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                String s = mEditTextSearch.getText().toString();
                 String[] datefromm = mDateFrom.getText().toString().split("/");
                 String[] datetoo = mDateTo.getText().toString().split("/");
 
-                Toast.makeText(SearchActivity.this, String.valueOf("From "
-                        + datefromm[0] + datefromm[1] + datefromm[2] + " to "
-                        + datetoo[0] + datetoo[1] + datetoo[2]), Toast.LENGTH_SHORT).show();
+                saveResult(datefromm, datetoo, s, query);
 
             }
         });
@@ -147,7 +161,6 @@ public class SearchActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
     // Configuration the Calendar and retrieve the current time
     private void confCalendar(EditText editTextFrom, EditText editTextTo) {
         calendar = Calendar.getInstance();
@@ -161,7 +174,48 @@ public class SearchActivity extends AppCompatActivity {
         editTextTo.setText(date);
     }
 
-    private void confCheckBox(CheckBox checkBox) {
-        checkBox.isChecked();
+    private void confEditText() {
+        mEditTextSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mButtonSearch.setEnabled(s.toString().length() != 0);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void t(String datefrom[], String dateto[], String s, HashMap<String, String> query) {
+        query.put("q", s);
+        query.put("begin_date", datefrom[0] + datefrom[1] + datefrom[2]);
+        query.put("end_date", dateto[0] + dateto[1] + dateto[2]);
+
+        Gson gson = new Gson();
+        String hashMapString = gson.toJson(query);
+
+        SharedPreferences prefs = getSharedPreferences(SP, MODE_PRIVATE);
+        prefs.edit().putString(cHASHMAP, hashMapString).apply();
+    }
+
+    private void saveResult(String datefrom[], String dateto[], String s, HashMap<String, String> query) {
+        query.put("q", s);
+        query.put("begin_date", datefrom[2] + datefrom[1] + datefrom[0]);
+        query.put("end_date", dateto[2] + dateto[1] + dateto[0]);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SP, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(query);
+        editor.putString(cHASHMAP, json);
+        editor.apply();
     }
 }

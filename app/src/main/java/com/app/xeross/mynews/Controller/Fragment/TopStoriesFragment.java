@@ -12,20 +12,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
+import com.app.xeross.mynews.Controller.Activity.SearchActivity;
+import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.Model.Articles.Articles;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
 import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
-import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.R;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,6 +42,8 @@ public class TopStoriesFragment extends Fragment {
     RecyclerView mRecyclerView;
     private RecyclerViewAdapterTop mRecyclerViewAdapterTop;
     private SharedPreferences preferences;
+    private HashMap<String, String> query;
+    private String i = "#fff333";
 
 
     public TopStoriesFragment() {
@@ -59,9 +61,8 @@ public class TopStoriesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
         ButterKnife.bind(this, view);
-
         preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
-        this.loadColor(getActivity());
+        this.loadColor();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -70,14 +71,29 @@ public class TopStoriesFragment extends Fragment {
         mRecyclerView.setAdapter(mRecyclerViewAdapterTop);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        executeRequestHTTP(apiInterface);
+        executeRequestHTTP(apiInterface, getContext());
         this.confOnClickRecyclerView();
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mRecyclerViewAdapterTop.notifyDataSetChanged();
+    }
+
     // Method for the network request
-    private void executeRequestHTTP(ApiInterface apiInterface) {
-        ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
+    private void executeRequestHTTP(ApiInterface apiInterface, Context context) {
+
+        query = SearchActivity.loadResult(context);
+
+        /*if (query == null) {
+            ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
+            Toast.makeText(getContext(), "Query == null", Toast.LENGTH_SHORT).show();
+        } else {*/
+            ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));
+            Toast.makeText(getContext(), "Query = " + query, Toast.LENGTH_SHORT).show();
+        //}
     }
 
     // Get the position and the click an item
@@ -89,30 +105,24 @@ public class TopStoriesFragment extends Fragment {
                         Articles.Result result = mRecyclerViewAdapterTop.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
-                        result.setColor("#6666ff");
-                        saveColor(getActivity());
+                        String str = "#6666ff";
+                        result.setColor(str);
+                        saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
 
     }
 
-    private void saveColor(Context context) {
-        SharedPreferences.Editor edit = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(mItems);
-        edit.putString(SI, json);
-        edit.apply();
+    private void saveColor(String color) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SI, color);
+        editor.apply();
     }
 
-    private void loadColor(Context context) {
-        Gson gson = new Gson();
-        String json = preferences.getString(SI, null);
-        Type type = new TypeToken<ArrayList<Articles.Result>>() {
-        }.getType();
-        mItems = gson.fromJson(json, type);
-        if (mItems == null) {
-            mItems = new ArrayList<>();
-        }
+    private String loadColor() {
+        i = preferences.getString(SI, null);
+        return i;
     }
 }
+

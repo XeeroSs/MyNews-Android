@@ -1,6 +1,8 @@
 package com.app.xeross.mynews.Controller.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,14 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
+import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.Model.Articles.Articles;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
 import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
-import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.R;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
+import static com.app.xeross.mynews.Model.Utils.Constants.SI;
+import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class MovieFragment extends Fragment {
@@ -33,6 +37,8 @@ public class MovieFragment extends Fragment {
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private RecyclerViewAdapterTop mRecyclerViewAdapterTop;
+    private String i = "#fff333";
+    private SharedPreferences preferences;
 
     public MovieFragment() {
     }
@@ -49,6 +55,9 @@ public class MovieFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
         ButterKnife.bind(this, view);
+
+        preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
+        this.loadColor();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -76,9 +85,29 @@ public class MovieFragment extends Fragment {
                         Articles.Result result = mRecyclerViewAdapterTop.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
+                        String str = "#6666ff";
+                        result.setColor(str);
+                        saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
 
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mRecyclerViewAdapterTop.notifyDataSetChanged();
+    }
+
+    private void saveColor(String color) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(SI, color);
+        editor.apply();
+    }
+
+    private String loadColor() {
+        i = preferences.getString(SI, null);
+        return i;
     }
 }

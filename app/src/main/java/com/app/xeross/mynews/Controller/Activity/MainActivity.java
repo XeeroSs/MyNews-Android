@@ -1,5 +1,6 @@
 package com.app.xeross.mynews.Controller.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import com.app.xeross.mynews.View.Adapter.PageAdapter;
 import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
 import com.app.xeross.mynews.R;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 

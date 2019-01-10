@@ -9,19 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <EditText
-        android:id="@+id/edittext_search_params"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:hint="Search query term"
-        android:inputType="text"
-        android:maxLength="50"
-        android:maxLines="1"
-        android:singleLine="true" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +16,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/nchechbox_arts"
+            android:id="@+id/nchechbox_technologie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -37,10 +24,10 @@
             android:layout_weight="1.0"
             android:ems="10"
             android:inputType="date"
-            android:text="Arts" />
+            android:text="Technologie" />
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/nchechbox_politics"
+            android:id="@+id/nchechbox_Movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -48,69 +35,7 @@
             android:layout_weight="1.0"
             android:ems="10"
             android:inputType="date"
-            android:text="Politics" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/nchechbox_business"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Business" />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/nchechbox_sports"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="30dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Sports" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/nchechbox_entrepreneurs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Entrepreneurs" />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/nchechbox_travel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="30dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Travel" />
+            android:text="Movie" />
 
 
     </LinearLayout>
@@ -146,15 +71,6 @@
             android:textColor="@color/colorBlack" />
 
     </RelativeLayout>
-
-    <Button
-        android:id="@+id/buttontextnotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="45dp"
-        android:text="TestNotification"
-        android:textColor="@color/colorBlue" />
 
 
 </LinearLayout>

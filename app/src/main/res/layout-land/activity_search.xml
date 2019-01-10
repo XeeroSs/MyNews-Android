@@ -62,7 +62,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_arts"
+            android:id="@+id/chechbox_technology"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -70,10 +70,10 @@
             android:layout_weight="1.0"
             android:ems="10"
             android:inputType="date"
-            android:text="Arts" />
+            android:text="Technology" />
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_politics"
+            android:id="@+id/chechbox_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
@@ -81,69 +81,7 @@
             android:layout_weight="1.0"
             android:ems="10"
             android:inputType="date"
-            android:text="Politics" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_business"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Business" />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_sports"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="30dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Sports" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:layout_marginTop="5dp"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_entrepreneurs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Entrepreneurs" />
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_travel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="30dp"
-            android:layout_weight="1.0"
-            android:ems="10"
-            android:inputType="date"
-            android:text="Travel" />
+            android:text="Movie" />
 
 
     </LinearLayout>

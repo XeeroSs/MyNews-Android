@@ -10,10 +10,33 @@ public class Articles {
     @SerializedName("results")
     @Expose
     private List<Result> results = null;
+    @SerializedName("docs")
+    @Expose
+    private List<Result> docs = null;
+    @SerializedName("response")
+    @Expose
+    private Response response;
+
+    public Response getResponse() {
+        return response;
+    }
 
     public List<Result> getResults() {
         return results;
     }
+
+    public class Response {
+
+        @SerializedName("docs")
+        @Expose
+        private List<Result> docs = null;
+
+        public List<Result> getDocs() {
+            return docs;
+        }
+
+    }
+
 
     public class Multimedium {
 
@@ -50,19 +73,30 @@ public class Articles {
     }
 
     public class Result {
-
         @SerializedName("section")
         @Expose
-        private String section;
+        private String section = null;
+        @SerializedName("section_name")
+        @Expose
+        private String search_section = null;
+        @SerializedName("url")
+        @Expose
+        private String url = null;
+        @SerializedName("web_url")
+        @Expose
+        private String search_url = null;
+        @SerializedName("published_date")
+        @Expose
+        private String publishedDate = null;
+        @SerializedName("pub_date")
+        @Expose
+        private String search_publishedDate = null;
         @SerializedName("title")
         @Expose
         private String title;
-        @SerializedName("url")
+        @SerializedName("title_name")
         @Expose
-        private String url;
-        @SerializedName("published_date")
-        @Expose
-        private String publishedDate;
+        private String search_title;
         @SerializedName("multimedia")
         @Expose
         private List<Multimedium> media = null;
@@ -72,23 +106,43 @@ public class Articles {
         private String color;
 
         public String getSection() {
-            return section;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
+            if (section != null) {
+                return section;
+            } else if (search_section != null) {
+                return search_section;
+            } else {
+                return "";
+            }
         }
 
         public String getUrl() {
-            return url;
+            if (url != null) {
+                return url;
+            } else if (search_url != null) {
+                return search_url;
+            } else {
+                return "";
+            }
         }
 
         public String getPublishedDate() {
-            return publishedDate;
+            if (publishedDate != null) {
+                return publishedDate;
+            } else if (search_publishedDate != null) {
+                return search_publishedDate;
+            } else {
+                return "";
+            }
+        }
+
+        public String getTitle() {
+            if (title != null) {
+                return title;
+            } else if (search_title != null) {
+                return search_title;
+            } else {
+                return "";
+            }
         }
 
         public List<Medium> getMultimedia() {
