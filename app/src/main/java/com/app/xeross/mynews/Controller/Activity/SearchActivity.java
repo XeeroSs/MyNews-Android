@@ -2,6 +2,7 @@ package com.app.xeross.mynews.Controller.Activity;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -127,6 +128,8 @@ public class SearchActivity extends AppCompatActivity {
                 String[] datetoo = mDateTo.getText().toString().split("/");
 
                 saveResult(datefromm, datetoo, s, query);
+                Intent i = new Intent(SearchActivity.this, MainActivity.class);
+                startActivity(i);
 
             }
         });
@@ -191,18 +194,6 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void t(String datefrom[], String dateto[], String s, HashMap<String, String> query) {
-        query.put("q", s);
-        query.put("begin_date", datefrom[0] + datefrom[1] + datefrom[2]);
-        query.put("end_date", dateto[0] + dateto[1] + dateto[2]);
-
-        Gson gson = new Gson();
-        String hashMapString = gson.toJson(query);
-
-        SharedPreferences prefs = getSharedPreferences(SP, MODE_PRIVATE);
-        prefs.edit().putString(cHASHMAP, hashMapString).apply();
     }
 
     private void saveResult(String datefrom[], String dateto[], String s, HashMap<String, String> query) {

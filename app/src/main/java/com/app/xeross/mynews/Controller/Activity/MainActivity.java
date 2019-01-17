@@ -1,8 +1,11 @@
 package com.app.xeross.mynews.Controller.Activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.app.xeross.mynews.View.Adapter.PageAdapter;
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
+import com.app.xeross.mynews.Model.Utils.AlarmReceiver;
 import com.app.xeross.mynews.R;
-import com.squareup.picasso.Picasso;
+import com.app.xeross.mynews.View.Adapter.PageAdapter;
 
 import butterknife.BindView;
 
@@ -22,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
-    private RecyclerViewAdapterMost mRecyclerViewAdapterMost;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
 
     // -------------------------------------------------------------------------
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // ------------------
+        this.confAlarmManger(this);
         this.confMenu();
         // ------------------
     }
@@ -97,6 +101,16 @@ public class MainActivity extends AppCompatActivity {
     private void confSearch() {
         Intent i = new Intent(MainActivity.this, SearchActivity.class);
         this.startActivity(i);
+    }
+
+    private void confAlarmManger(Context context) {
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() +
+                        60 * 1000, pendingIntent);
     }
 
 }

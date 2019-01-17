@@ -97,7 +97,7 @@ public class NotificationActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    createNotification(NotificationActivity.this);
+                    //createNotification(NotificationActivity.this);
                 } else {
                     stopNotification(NotificationActivity.this);
                 }
@@ -111,31 +111,6 @@ public class NotificationActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(SP, 0);
         boolean sPreferences = preferences.getBoolean("switchkey", false);
         mSwitch.setChecked(sPreferences);
-    }
-
-    public void createNotification(Context context) {
-        ApiCalls.request(context);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            Intent i = new Intent(context, MainActivity.class);
-            CharSequence name = "Notification Title";
-            String description = "Notification Description";
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
-            NotificationChannel channel = new NotificationChannel("12", name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "12")
-                    .setContentTitle("Section: ")
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(android.R.drawable.alert_dark_frame)
-                    .setAutoCancel(true)
-                    .setContentText("123")
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-
-            Notification notification = mBuilder.build();
-            notificationManager.notify(NOTIFICATION_ID, notification);
-        }
     }
 
     public void stopNotification(Context context) {

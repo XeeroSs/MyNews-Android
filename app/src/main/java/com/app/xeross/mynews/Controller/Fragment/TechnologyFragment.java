@@ -33,7 +33,8 @@ import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class TechnologyFragment extends Fragment {
 
-    public ArrayList<Articles.Result> mItems = new ArrayList<>();
+    public ArrayList<Articles.Result> mItemsTop = new ArrayList<>();
+    public ArrayList<Articles.Doc> mItems = new ArrayList<>();
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private RecyclerViewAdapterTop mRecyclerViewAdapterTop;
@@ -61,7 +62,7 @@ public class TechnologyFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerViewAdapterTop = new RecyclerViewAdapterTop(getActivity(), mItems);
+        mRecyclerViewAdapterTop = new RecyclerViewAdapterTop(getActivity(), mItemsTop, mItems);
         mRecyclerView.setAdapter(mRecyclerViewAdapterTop);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -81,11 +82,11 @@ public class TechnologyFragment extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Articles.Result result = mRecyclerViewAdapterTop.getPosition(position);
+                        Articles.Doc result = mRecyclerViewAdapterTop.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
                         String str = "#6666ff";
-                        result.setColor(str);
+                        result.getResult().get(position).setColor(str);
                         saveColor(str);
                         getContext().startActivity(intent);
                     }

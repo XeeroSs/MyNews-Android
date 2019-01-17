@@ -1,6 +1,5 @@
 package com.app.xeross.mynews.Model.Utils;
 
-import com.app.xeross.mynews.Model.Articles.ApiArticleSearch;
 import com.app.xeross.mynews.Model.Articles.Articles;
 
 import java.util.Map;
