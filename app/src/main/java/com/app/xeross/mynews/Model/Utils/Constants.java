@@ -6,7 +6,7 @@ package com.app.xeross.mynews.Model.Utils;
 public class Constants {
 
     public static final String BASE_URL = "https://api.nytimes.com/";
-    public static final String API_KEY = "da4e42347e744f2cb790ff847b0aa6ec";
+    public static final String API_KEY = "5N8dG7cChlGsyGumDjK6mGAiGoPgjRr8";
     public static final int NOTIFICATION_ID = 51;
     public static final String WEBVIEW = "WEBVIEW";
     public static final String SP = "SP";

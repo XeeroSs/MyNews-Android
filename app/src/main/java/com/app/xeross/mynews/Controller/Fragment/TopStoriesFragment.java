@@ -93,11 +93,12 @@ public class TopStoriesFragment extends Fragment {
     private void executeRequestHTTP(ApiInterface apiInterface, Context context) {
 
         query = SearchActivity.loadResult(context);
-        if (query.size() == 0) {
+
+       // if (query.size() == 0) {
             ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
-        } else {
+        /*} else {
             ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));
-        }
+        }*/
     }
 
     // Get the position and the click an item
