@@ -1,7 +1,6 @@
 package com.app.xeross.mynews.Controller.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
-import com.app.xeross.mynews.Model.Articles.Articles;
+import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
-import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
 import com.app.xeross.mynews.R;
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 
@@ -29,15 +26,13 @@ import butterknife.ButterKnife;
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 import static com.app.xeross.mynews.Model.Utils.Constants.SI;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
-import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class MovieFragment extends Fragment {
 
-    public ArrayList<Articles.Result> mItemsTop = new ArrayList<>();
-    public ArrayList<Articles.Doc> mItems = new ArrayList<>();
+    public ArrayList<ArticlesTop.Result> mItemsTop = new ArrayList<>();
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
-    private RecyclerViewAdapterTop mRecyclerViewAdapterTop;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
     private String i = "#fff333";
     private SharedPreferences preferences;
 
@@ -63,27 +58,27 @@ public class MovieFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerViewAdapterTop = new RecyclerViewAdapterTop(getActivity(), mItemsTop, mItems);
-        mRecyclerView.setAdapter(mRecyclerViewAdapterTop);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), mItemsTop, null, null);
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         executeRequestHTTP(apiInterface);
-        this.confOnClickRecyclerView();
+        //this.confOnClickRecyclerView();
         return view;
     }
 
     // Method for the network request
     private void executeRequestHTTP(ApiInterface apiInterface) {
-        ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("movies", API_KEY));
+        ApiCalls.requestTop((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getTopStories("movies", API_KEY));
     }
 
     // Get the position and the click an item
-    private void confOnClickRecyclerView() {
+    /*private void confOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_movie)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Articles.Doc result = mRecyclerViewAdapterTop.getPosition(position);
+                        ArticlesTop.Doc result = mRecyclerViewAdapter.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
                         String str = "#6666ff";
@@ -93,12 +88,12 @@ public class MovieFragment extends Fragment {
                     }
                 });
 
-    }
+    }*/
 
     @Override
     public void onStop() {
         super.onStop();
-        mRecyclerViewAdapterTop.notifyDataSetChanged();
+        mRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     private void saveColor(String color) {

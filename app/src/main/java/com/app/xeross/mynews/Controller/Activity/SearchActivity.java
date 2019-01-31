@@ -157,7 +157,11 @@ public class SearchActivity extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int years, int months, int days) {
                         months += 1;
-                        editText.setText(days + "/" + months + "/" + years);
+                        String z1 = "";
+                        String z2 = "";
+                        if (months < 9) z2 = "0";
+                        if (days < 9) z1 = "0";
+                        editText.setText(z1 + days + "/" + z2 + months + "/" + years);
                     }
                 }, year, month, day);
         datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
@@ -200,6 +204,7 @@ public class SearchActivity extends AppCompatActivity {
         query.put("q", s);
         query.put("begin_date", datefrom[2] + datefrom[1] + datefrom[0]);
         query.put("end_date", dateto[2] + dateto[1] + dateto[0]);
+        //query.put("fq", checkbox);
 
         SharedPreferences sharedPreferences = getSharedPreferences(SP, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -2,7 +2,6 @@ package com.app.xeross.mynews.Controller.Fragment;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,16 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.xeross.mynews.Controller.Activity.SearchActivity;
-import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
-import com.app.xeross.mynews.Model.Articles.Articles;
+import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
+import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
-import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
 import com.app.xeross.mynews.R;
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterTop;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,17 +32,16 @@ import butterknife.ButterKnife;
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 import static com.app.xeross.mynews.Model.Utils.Constants.SI;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
-import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class TopStoriesFragment extends Fragment {
 
-    public ArrayList<Articles.Result> mItemsTop = new ArrayList<>();
-    public ArrayList<Articles.Doc> mItems = new ArrayList<>();
+    public ArrayList<ArticlesTop.Result> articles = new ArrayList<>();
+    public ArrayList<ArticlesSearch.Doc> articlesSearch = new ArrayList<>();
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     @BindView(R.id.check_textview)
     TextView mTextview;
-    private RecyclerViewAdapterTop mRecyclerViewAdapterTop;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
     private SharedPreferences preferences;
     private HashMap<String, String> query;
     private String i = "#fff333";
@@ -64,29 +62,26 @@ public class TopStoriesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
         ButterKnife.bind(this, view);
-        preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
+        preferences = this.getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
         this.loadColor();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerViewAdapterTop = new RecyclerViewAdapterTop(getActivity(), mItemsTop, mItems);
-        mRecyclerView.setAdapter(mRecyclerViewAdapterTop);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), articles, articlesSearch, null);
+        mRecyclerView.setAdapter(mRecyclerViewAdapter);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         executeRequestHTTP(apiInterface, getContext());
-        if (mItems.size() == 0) {
-            mTextview.setVisibility(View.VISIBLE);
-        }
         mTextview.setVisibility(View.GONE);
-        this.confOnClickRecyclerView();
+        //this.confOnClickRecyclerView();
         return view;
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mRecyclerViewAdapterTop.notifyDataSetChanged();
+        mRecyclerViewAdapter.notifyDataSetChanged();
     }
 
     // Method for the network request
@@ -94,20 +89,22 @@ public class TopStoriesFragment extends Fragment {
 
         query = SearchActivity.loadResult(context);
 
-       // if (query.size() == 0) {
-            ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
-        /*} else {
-            ApiCalls.requestHTTPTop((RecyclerViewAdapterTop) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));
-        }*/
+        if (query.size() == 0) {
+            ApiCalls.requestTop((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
+            Toast.makeText(context, "Top", Toast.LENGTH_SHORT).show();
+        } else {
+            ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));
+            Toast.makeText(context, "" + query, Toast.LENGTH_SHORT).show();
+        }
     }
 
     // Get the position and the click an item
-    private void confOnClickRecyclerView() {
+    /*private void confOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_top_stories)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Articles.Doc result = mRecyclerViewAdapterTop.getPosition(position);
+                        ArticlesTop.Doc result = mRecyclerViewAdapter.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
                         String str = "#6666ff";
@@ -117,7 +114,7 @@ public class TopStoriesFragment extends Fragment {
                     }
                 });
 
-    }
+    }*/
 
     private void saveColor(String color) {
         SharedPreferences.Editor editor = preferences.edit();

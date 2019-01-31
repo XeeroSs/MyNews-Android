@@ -1,30 +1,19 @@
 package com.app.xeross.mynews.Controller.Activity;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import com.app.xeross.mynews.Model.Articles.Articles;
-import com.app.xeross.mynews.Model.Utils.ApiCalls;
+import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.R;
-import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapterMost;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +27,12 @@ import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 public class NotificationActivity extends AppCompatActivity {
 
 
-    public ArrayList<Articles> mItems = new ArrayList<>();
+    public ArrayList<ArticlesTop> mItems = new ArrayList<>();
     @BindView(R.id.switchnotification)
     Switch mSwitch;
     private NotificationManager notifManager;
-    private RecyclerViewAdapterMost mRecyclerViewAdapterMost;
     private RecyclerView mRecyclerView;
-    private List<Articles.Result> article;
+    private List<ArticlesTop.Result> article;
     private CharSequence name = "Notification Title";
     private String description = "Notification Description";
 
@@ -56,7 +44,6 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         ButterKnife.bind(NotificationActivity.this);
-        mRecyclerViewAdapterMost = new RecyclerViewAdapterMost();
     }
 
     @Override

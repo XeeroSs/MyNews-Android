@@ -1,6 +1,8 @@
 package com.app.xeross.mynews.Model.Utils;
 
-import com.app.xeross.mynews.Model.Articles.Articles;
+import com.app.xeross.mynews.Model.Articles.ArticlesMost;
+import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
+import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 
 import java.util.Map;
 
@@ -16,14 +18,14 @@ import retrofit2.http.QueryMap;
 public interface ApiInterface {
 
     // REST request on the URL complement
-    @GET("svc/mostpopular/v2/mostviewed/all-sections/7.json")
-    Call<Articles> getMostPopular(@Query("api-key") String apikey);
+    @GET("svc/mostpopular/v2/viewed/7.json")
+    Call<ArticlesMost> getMostPopular(@Query("api-key") String apikey);
 
     @GET("svc/topstories/v2/{section}.json")
-    Call<Articles> getTopStories(@Path("section") String section,
-                                 @Query("api-key") String apikey);
+    Call<ArticlesTop> getTopStories(@Path("section") String section,
+                                    @Query("api-key") String apikey);
 
     @GET("svc/search/v2/articlesearch.json")
-    Call<Articles> getArticles(@QueryMap Map<String, String> query,
-                                       @Query("api-key") String apikey);
+    Call<ArticlesSearch> getArticles(@QueryMap Map<String, String> query,
+                                     @Query("api-key") String apikey);
 }
