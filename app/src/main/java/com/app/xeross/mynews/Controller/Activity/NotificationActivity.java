@@ -1,40 +1,38 @@
 package com.app.xeross.mynews.Controller.Activity;
 
-import android.app.NotificationManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.app.xeross.mynews.Model.Articles.ArticlesTop;
+import com.app.xeross.mynews.Model.Utils.AlarmReceiver;
 import com.app.xeross.mynews.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.NOTIFICATION_ID;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 
 public class NotificationActivity extends AppCompatActivity {
 
 
-    public ArrayList<ArticlesTop> mItems = new ArrayList<>();
     @BindView(R.id.switchnotification)
     Switch mSwitch;
-    private NotificationManager notifManager;
-    private RecyclerView mRecyclerView;
-    private List<ArticlesTop.Result> article;
-    private CharSequence name = "Notification Title";
-    private String description = "Notification Description";
+    private AlarmManager alarmMgr;
+    private Intent i;
+    private PendingIntent pi;
 
     // -------------------------------------------------------------------------
 
@@ -44,13 +42,14 @@ public class NotificationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notification);
 
         ButterKnife.bind(NotificationActivity.this);
+
     }
 
     @Override
     protected void onResume() {
         // --------------------
         this.confToolbar();
-        this.confSwitch(this);
+        this.confSwitch();
         // --------------------
         super.onResume();
     }
@@ -79,14 +78,14 @@ public class NotificationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void confSwitch(final Context context) {
+    private void confSwitch() {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //createNotification(NotificationActivity.this);
+                    confAlarmManager();
                 } else {
-                    stopNotification(NotificationActivity.this);
+                    stopNotification();
                 }
                 SharedPreferences preferences = getSharedPreferences(SP, 0);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -100,10 +99,17 @@ public class NotificationActivity extends AppCompatActivity {
         mSwitch.setChecked(sPreferences);
     }
 
-    public void stopNotification(Context context) {
-        final NotificationManager mNotification = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (mNotification != null) {
-            mNotification.cancel(NOTIFICATION_ID);
+    private void stopNotification() {
+        if (alarmMgr != null) {
+            alarmMgr.cancel(pi);
         }
+    }
+
+    private void confAlarmManager() {
+        alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        i = new Intent(this, AlarmReceiver.class);
+        pi = PendingIntent.getBroadcast(this, 0, i, 0);
+        alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime(),      1, pi);
     }
 }

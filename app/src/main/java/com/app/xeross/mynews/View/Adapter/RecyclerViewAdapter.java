@@ -5,6 +5,7 @@ package com.app.xeross.mynews.View.Adapter;
  */
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -69,10 +70,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
-    public void updateAnswersSearch(ArticlesSearch items) {
+    public void updateAnswersSearch(ArticlesSearch items, TextView textView) {
         articlesSearch.clear();
         articlesSearch.addAll(items.getResponse().getDocs());
         notifyDataSetChanged();
+        if (articlesSearch.size() == 0) {
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
     }
 
     public void updateAnswersMost(ArticlesMost items) {
@@ -95,7 +101,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         // -------------------- ArticleSearch --------------------
         if (articlesSearch != null) {
-            holder.title.setText(articlesSearch.get(position).getSectionName());
+            holder.title.setText("Section > " + articlesSearch.get(position).getSectionName());
             holder.description.setText(articlesSearch.get(position).getHeadline().getMain());
             holder.date.setText(articlesSearch.get(position).getPubDate());
 
@@ -108,7 +114,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             // -------------------- TopStories --------------------
         } else if (articlesTop != null) {
-            holder.title.setText(articlesTop.get(position).getSection());
+            holder.title.setText("Section > " + articlesTop.get(position).getSection());
             holder.description.setText(articlesTop.get(position).getTitle());
             holder.date.setText(articlesTop.get(position).getPublishedDate());
 
@@ -119,13 +125,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 e.printStackTrace();
             }
 
-            /*if (articlesTop.get(position).getColor() != null) {
+            if (articlesTop.get(position).getColor() != null) {
                 holder.color.setBackgroundColor(Color.parseColor(articlesTop.get(position).getColor()));
-            }*/
+            }
 
             // -------------------- MostPopular --------------------
         } else if (articlesMost != null) {
-            holder.title.setText(articlesMost.get(position).getSection());
+            holder.title.setText("Section > " + articlesMost.get(position).getSection());
             holder.description.setText(articlesMost.get(position).getTitle());
             holder.date.setText(articlesMost.get(position).getPublishedDate());
 
@@ -136,9 +142,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 e.printStackTrace();
             }
 
-            /*if (articlesMost.get(position).getColor() != null) {
+            if (articlesMost.get(position).getColor() != null) {
                 holder.color.setBackgroundColor(Color.parseColor(articlesMost.get(position).getColor()));
-            }*/
+            }
         }
 
     }

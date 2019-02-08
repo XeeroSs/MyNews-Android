@@ -2,6 +2,7 @@ package com.app.xeross.mynews.Controller.Fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.xeross.mynews.Controller.Activity.SearchActivity;
+import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
 import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
+import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
 import com.app.xeross.mynews.R;
 import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 
@@ -32,6 +35,7 @@ import butterknife.ButterKnife;
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 import static com.app.xeross.mynews.Model.Utils.Constants.SI;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
+import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class TopStoriesFragment extends Fragment {
 
@@ -73,8 +77,7 @@ public class TopStoriesFragment extends Fragment {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         executeRequestHTTP(apiInterface, getContext());
-        mTextview.setVisibility(View.GONE);
-        //this.confOnClickRecyclerView();
+        this.confOnClickRecyclerView();
         return view;
     }
 
@@ -91,30 +94,28 @@ public class TopStoriesFragment extends Fragment {
 
         if (query.size() == 0) {
             ApiCalls.requestTop((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getTopStories("home", API_KEY));
-            Toast.makeText(context, "Top", Toast.LENGTH_SHORT).show();
         } else {
-            ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));
-            Toast.makeText(context, "" + query, Toast.LENGTH_SHORT).show();
+            ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY), context, mTextview);
         }
     }
 
     // Get the position and the click an item
-    /*private void confOnClickRecyclerView() {
+    private void confOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_top_stories)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        ArticlesTop.Doc result = mRecyclerViewAdapter.getPosition(position);
+                        ArticlesSearch.Doc result = mRecyclerViewAdapter.getPosition(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                        intent.putExtra(WEBVIEW, result.getUrl());
+                        intent.putExtra(WEBVIEW, result.getWebUrl());
                         String str = "#6666ff";
-                        result.getResult().get(position).setColor(str);
+                        result.setColor(str);
                         saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
 
-    }*/
+    }
 
     private void saveColor(String color) {
         SharedPreferences.Editor editor = preferences.edit();

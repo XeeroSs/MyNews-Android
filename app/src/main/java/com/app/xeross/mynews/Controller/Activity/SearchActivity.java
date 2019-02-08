@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -45,6 +46,10 @@ public class SearchActivity extends AppCompatActivity {
     EditText mDateFrom;
     @BindView(R.id.date_to)
     EditText mDateTo;
+    @BindView(R.id.chechbox_technology)
+    CheckBox technology;
+    @BindView(R.id.chechbox_movie)
+    CheckBox movie;
     private Calendar calendar;
     private int year, month, day;
 
@@ -182,6 +187,12 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void confEditText() {
+        if (technology.isChecked()) {
+            movie.setChecked(false);
+        }
+        if (movie.isChecked()) {
+            technology.setChecked(false);
+        }
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -204,7 +215,9 @@ public class SearchActivity extends AppCompatActivity {
         query.put("q", s);
         query.put("begin_date", datefrom[2] + datefrom[1] + datefrom[0]);
         query.put("end_date", dateto[2] + dateto[1] + dateto[0]);
-        //query.put("fq", checkbox);
+        if (technology.isChecked()) { query.put("fq", "Technology"); }
+        if (movie.isChecked()) { query.put("fq", "Movie"); }
+        if (!movie.isChecked() && !technology.isChecked()) { query.remove("fq"); }
 
         SharedPreferences sharedPreferences = getSharedPreferences(SP, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

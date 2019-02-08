@@ -1,6 +1,8 @@
 package com.app.xeross.mynews.Model.Utils;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.app.xeross.mynews.Model.Articles.ArticlesMost;
 import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
@@ -34,12 +36,12 @@ public class ApiCalls {
         });
     }
 
-    public static void requestSearch(final RecyclerViewAdapter recyclerViewAdapterMost, Call<ArticlesSearch> calls) {
+    public static void requestSearch(final RecyclerViewAdapter recyclerViewAdapterMost, Call<ArticlesSearch> calls, final Context c, final TextView textView) {
         calls.enqueue(new Callback<ArticlesSearch>() {
             @Override
             public void onResponse(Call<ArticlesSearch> call, Response<ArticlesSearch> response) {
                 if (response.isSuccessful()) {
-                    recyclerViewAdapterMost.updateAnswersSearch(response.body());
+                    recyclerViewAdapterMost.updateAnswersSearch(response.body(), textView);
                 }
             }
 

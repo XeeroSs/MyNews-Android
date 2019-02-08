@@ -1,6 +1,7 @@
 package com.app.xeross.mynews.Controller.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
+import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
 import com.app.xeross.mynews.R;
 import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 
@@ -26,6 +29,7 @@ import butterknife.ButterKnife;
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
 import static com.app.xeross.mynews.Model.Utils.Constants.SI;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
+import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class MovieFragment extends Fragment {
 
@@ -63,7 +67,7 @@ public class MovieFragment extends Fragment {
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
         executeRequestHTTP(apiInterface);
-        //this.confOnClickRecyclerView();
+        this.confOnClickRecyclerView();
         return view;
     }
 
@@ -73,22 +77,22 @@ public class MovieFragment extends Fragment {
     }
 
     // Get the position and the click an item
-    /*private void confOnClickRecyclerView() {
+    private void confOnClickRecyclerView() {
         ItemClickSupport.addTo(mRecyclerView, R.layout.fragment_movie)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        ArticlesTop.Doc result = mRecyclerViewAdapter.getPosition(position);
+                        ArticlesTop.Result result = mRecyclerViewAdapter.getPositionTop(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
                         String str = "#6666ff";
-                        result.getResult().get(position).setColor(str);
+                        result.setColor(str);
                         saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
 
-    }*/
+    }
 
     @Override
     public void onStop() {

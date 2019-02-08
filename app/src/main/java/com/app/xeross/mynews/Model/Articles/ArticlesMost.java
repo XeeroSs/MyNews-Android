@@ -219,6 +219,7 @@ public class ArticlesMost {
         @SerializedName("uri")
         @Expose
         private String uri;
+        private String color;
 
         public String getUrl() {
             return url;
@@ -340,6 +341,13 @@ public class ArticlesMost {
             this.uri = uri;
         }
 
+        public String getColor() {
+            return color;
+        }
+
+        public void setColor(String color) {
+            this.color = color;
+        }
     }
 
 }
