@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="MyNews">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_main_drawer_not"
+                    android:icon="@drawable/baseline_notifications_black_18dp"
+                    android:title="Paramètre notification" />
+                <item
+                    android:id="@+id/activity_main_drawer_search"
+                    android:icon="@drawable/baseline_search_black_18dp"
+                    android:title="Recherche d'article" />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="Catégories">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/activity_main_drawer_most"
+                    android:icon="@drawable/baseline_whatshot_black_18dp"
+                    android:title="Most Popular" />
+                <item
+                    android:id="@+id/activity_main_drawer_top"
+                    android:icon="@drawable/baseline_trending_up_black_18dp"
+                    android:title="To Stories" />
+                <item
+                    android:id="@+id/activity_main_drawer_techno"
+                    android:icon="@drawable/baseline_device_hub_black_18dp"
+                    android:title="Technology" />
+                <item
+                    android:id="@+id/activity_main_drawer_movie"
+                    android:icon="@drawable/baseline_videocam_black_18dp"
+                    android:title="Movie" />
+            </group>
+        </menu>
+    </item>
+
+</menu>

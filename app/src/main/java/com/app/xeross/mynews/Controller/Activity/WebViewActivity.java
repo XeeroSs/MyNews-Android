@@ -19,7 +19,9 @@ public class WebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web);
 
+        // Nous récupérons la String diffuser via un Intent dans l'activité précedente
         String url = getIntent().getStringExtra(WEBVIEW);
+
         WebView webView = findViewById(R.id.webview);
 
         //formatting the page
@@ -44,7 +46,7 @@ public class WebViewActivity extends AppCompatActivity {
 
     }
 
-
+    // Méthode relier au bouton retour en arrière
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

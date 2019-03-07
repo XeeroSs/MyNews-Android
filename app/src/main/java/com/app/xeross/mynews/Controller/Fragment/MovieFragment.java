@@ -57,7 +57,6 @@ public class MovieFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
-        this.loadColor();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -85,9 +84,6 @@ public class MovieFragment extends Fragment {
                         ArticlesTop.Result result = mRecyclerViewAdapter.getPositionTop(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
-                        String str = "#6666ff";
-                        result.setColor(str);
-                        saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
@@ -98,16 +94,5 @@ public class MovieFragment extends Fragment {
     public void onStop() {
         super.onStop();
         mRecyclerViewAdapter.notifyDataSetChanged();
-    }
-
-    private void saveColor(String color) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(SI, color);
-        editor.apply();
-    }
-
-    private String loadColor() {
-        i = preferences.getString(SI, null);
-        return i;
     }
 }

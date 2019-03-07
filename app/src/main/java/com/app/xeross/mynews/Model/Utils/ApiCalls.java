@@ -36,12 +36,13 @@ public class ApiCalls {
         });
     }
 
-    public static void requestSearch(final RecyclerViewAdapter recyclerViewAdapterMost, Call<ArticlesSearch> calls, final Context c, final TextView textView) {
+    public static void requestSearch(final RecyclerViewAdapter recyclerViewAdapterMost, Call<ArticlesSearch> calls) {
         calls.enqueue(new Callback<ArticlesSearch>() {
             @Override
             public void onResponse(Call<ArticlesSearch> call, Response<ArticlesSearch> response) {
                 if (response.isSuccessful()) {
-                    recyclerViewAdapterMost.updateAnswersSearch(response.body(), textView);
+
+                    recyclerViewAdapterMost.updateAnswersSearch(response.body());
                 }
             }
 

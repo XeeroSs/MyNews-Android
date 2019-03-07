@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.xeross.mynews">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
@@ -30,7 +30,15 @@
                 android:value=".Controller.Activity.MainActivity" />
         </activity>
         <activity android:name=".Controller.Activity.NotificationActivity" />
-        <activity android:name=".Controller.Activity.WebViewActivity"></activity>
+        <activity android:name=".Controller.Activity.WebViewActivity" />
+
+        <receiver android:name=".Model.Utils.AlarmReceiver">
+            <intent-filter>
+                <action android:name="AlarmReceiver" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".Controller.Activity.ResultActivity"></activity>
     </application>
 
 </manifest>

@@ -39,7 +39,6 @@ public class MostPopularFragment extends Fragment {
     RecyclerView mRecyclerView;
     private RecyclerViewAdapter mRecyclerViewAdapterMost;
     private SharedPreferences preferences;
-    private String i = "#fff333";
 
     public MostPopularFragment() {
     }
@@ -57,7 +56,6 @@ public class MostPopularFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
-        this.loadColor();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -86,23 +84,9 @@ public class MostPopularFragment extends Fragment {
                         ArticlesMost.Result result = mRecyclerViewAdapterMost.getPositionMost(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
                         intent.putExtra(WEBVIEW, result.getUrl());
-                        String str = "#6666ff";
-                        result.setColor(str);
-                        saveColor(str);
                         getContext().startActivity(intent);
                     }
                 });
 
-    }
-
-    private void saveColor(String color) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(SI, color);
-        editor.apply();
-    }
-
-    private String loadColor() {
-        i = preferences.getString(SI, null);
-        return i;
     }
 }

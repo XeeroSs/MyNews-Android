@@ -137,7 +137,6 @@ public class ArticlesSearch {
         @SerializedName("uri")
         @Expose
         private String uri;
-        private String color;
 
         public String getWebUrl() {
             return webUrl;
@@ -275,13 +274,6 @@ public class ArticlesSearch {
             this.uri = uri;
         }
 
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
     }
 
     public class Facets {

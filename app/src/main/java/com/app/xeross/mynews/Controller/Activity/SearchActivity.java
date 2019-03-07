@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -35,7 +36,7 @@ import butterknife.ButterKnife;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 import static com.app.xeross.mynews.Model.Utils.Constants.cHASHMAP;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
     private static HashMap<String, String> query = new HashMap<>();
     @BindView(R.id.edittext_search_params)
@@ -55,9 +56,11 @@ public class SearchActivity extends AppCompatActivity {
 
     // -------------------------------------------------------------------------
 
+    // Constructor
     public SearchActivity() {
     }
 
+    // Permet de charger un HashMap graâce a un sharedpreferense
     public static HashMap<String, String> loadResult(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SP, MODE_PRIVATE);
         Gson gson = new Gson();
@@ -71,6 +74,8 @@ public class SearchActivity extends AppCompatActivity {
         return query;
     }
 
+    // -------------------------------------------------------------------------
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,14 +83,18 @@ public class SearchActivity extends AppCompatActivity {
 
         ButterKnife.bind(SearchActivity.this);
 
+        // Relier à la méthode "onCheckedChanged" et permet de gérer les checkBox en temps réel
+
+        technology.setOnCheckedChangeListener(this);
+        movie.setOnCheckedChangeListener(this);
+
+
         // -------------------------
         this.confToolbar();
         this.confCalendar(mDateFrom, mDateTo);
         mButtonSearch.setEnabled(false);
         // -------------------------
     }
-
-    // -------------------------------------------------------------------------
 
     @Override
     protected void onResume() {
@@ -97,6 +106,8 @@ public class SearchActivity extends AppCompatActivity {
 
         super.onResume();
     }
+
+    // -------------------------------------------------------------------------
 
     // Toolbar configuration
     private void confToolbar() {
@@ -111,6 +122,27 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+
+    // Gestionnaire de CheckBox
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        // On verifie l'id de la checkbox qui à subit un changement et puis on verifie si une autre checkbox est d"ja selectionner, si c'est le cas, on la deselectionne
+        switch (buttonView.getId()) {
+            case R.id.chechbox_movie:
+                if (isChecked) {
+                    technology.setChecked(false);
+                }
+                break;
+            case R.id.chechbox_technology:
+                if (isChecked) {
+                    movie.setChecked(false);
+                }
+                break;
+        }
+    }
+
+    // Méthode relier au bouton retour en arrière
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -133,7 +165,7 @@ public class SearchActivity extends AppCompatActivity {
                 String[] datetoo = mDateTo.getText().toString().split("/");
 
                 saveResult(datefromm, datetoo, s, query);
-                Intent i = new Intent(SearchActivity.this, MainActivity.class);
+                Intent i = new Intent(SearchActivity.this, ResultActivity.class);
                 startActivity(i);
 
             }
@@ -186,13 +218,8 @@ public class SearchActivity extends AppCompatActivity {
         editTextTo.setText(date);
     }
 
+    // On verifie si il y a eu un changement au niveau de l'edit text en temps reel, si c'est le cas, on active le boutton de recherche si l'edittext n'est pas nul
     private void confEditText() {
-        if (technology.isChecked()) {
-            movie.setChecked(false);
-        }
-        if (movie.isChecked()) {
-            technology.setChecked(false);
-        }
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -211,13 +238,22 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    // Nous ajoutons les valeurs necaissaire pour la recherche d'article dans un hashMap, puis on sauvegarde ce hashmap piur le récupérer grâce à la mathode "LoadResult"
     private void saveResult(String datefrom[], String dateto[], String s, HashMap<String, String> query) {
         query.put("q", s);
         query.put("begin_date", datefrom[2] + datefrom[1] + datefrom[0]);
         query.put("end_date", dateto[2] + dateto[1] + dateto[0]);
-        if (technology.isChecked()) { query.put("fq", "Technology"); }
-        if (movie.isChecked()) { query.put("fq", "Movie"); }
-        if (!movie.isChecked() && !technology.isChecked()) { query.remove("fq"); }
+
+        // Nous verfions si la checkbox est coché avant de l'ajouter
+        if (technology.isChecked()) {
+            query.put("fq", "Technology");
+        }
+        if (movie.isChecked()) {
+            query.put("fq", "Movie");
+        }
+        if (!movie.isChecked() && !technology.isChecked()) {
+            query.remove("fq");
+        }
 
         SharedPreferences sharedPreferences = getSharedPreferences(SP, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

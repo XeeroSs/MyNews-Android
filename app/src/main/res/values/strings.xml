@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">MyNews</string>
+    <string name="no">Open</string>
+    <string name="nc">Close</string>
+    <string name="urlimage">https://static01.nyt.com/</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

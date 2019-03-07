@@ -222,7 +222,6 @@ public class ArticlesTop {
         @SerializedName("short_url")
         @Expose
         private String shortUrl;
-        private String color;
 
         public String getSection() {
             return section;
@@ -366,14 +365,6 @@ public class ArticlesTop {
 
         public void setShortUrl(String shortUrl) {
             this.shortUrl = shortUrl;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
         }
 
     }

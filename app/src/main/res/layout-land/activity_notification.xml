@@ -10,7 +10,7 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:id="@+id/edittext_search_params"
+        android:id="@+id/edittext_not_params"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
@@ -29,7 +29,7 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_technology"
+            android:id="@+id/nchechbox_technology"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
@@ -40,7 +40,7 @@
             android:text="Technology" />
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/chechbox_movie"
+            android:id="@+id/nchechbox_movie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
