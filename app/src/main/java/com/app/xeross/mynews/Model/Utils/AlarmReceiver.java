@@ -77,7 +77,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     // Nous vérifions si "str" retourne le même résultat que "i"
                     if (values.containsKey("fq") && values.containsValue("movie")) {
-                        Toast.makeText(context, "str = " + str + "\nm = " + m, Toast.LENGTH_SHORT).show();
                         if (!(str.equalsIgnoreCase(m))) {
                             not(context, str, "Movie");
                             SharedPreferences.Editor editor = preferences.edit();
@@ -87,7 +86,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                     }
 
                     if (values.containsKey("fq") && values.containsValue("technology")) {
-                        Toast.makeText(context, "str = " + str + "\nt = " + t, Toast.LENGTH_SHORT).show();
                         if (!(str.equalsIgnoreCase(t))) {
                             not(context, str, "Technology");
                             SharedPreferences.Editor editor = preferences.edit();
