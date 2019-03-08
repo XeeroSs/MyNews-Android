@@ -191,7 +191,7 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         //  ici on choisis qu'elle classe va etre notre Receiver
         i = new Intent(this, AlarmReceiver.class);
         pi = PendingIntent.getBroadcast(this, 0, i, 0);
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.currentThreadTimeMillis(), 5 * 60 * 1000, pi);
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.currentThreadTimeMillis(), 1000 * 60 * 2, pi);
     }
 
     // Nous sauvegardons un HashMap quyi va contenir les information pour les notification

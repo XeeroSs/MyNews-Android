@@ -37,8 +37,6 @@ public class TechnologyFragment extends Fragment {
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private RecyclerViewAdapter mRecyclerViewAdapter;
-    private String i = "#fff333";
-    private SharedPreferences preferences;
 
     public TechnologyFragment() {
     }
@@ -54,8 +52,6 @@ public class TechnologyFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_technology, container, false);
         ButterKnife.bind(this, view);
-
-        preferences = getActivity().getSharedPreferences(SP, Context.MODE_PRIVATE);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);

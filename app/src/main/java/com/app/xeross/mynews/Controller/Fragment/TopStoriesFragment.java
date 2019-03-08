@@ -32,8 +32,6 @@ import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class TopStoriesFragment extends Fragment {
 
-    public ArrayList<ArticlesTop.Result> articlesM = new ArrayList<>();
-    public ArrayList<ArticlesTop.Result> articlesT = new ArrayList<>();
     ArrayList<ArticlesTop.Result> articles = new ArrayList<>();
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
@@ -55,7 +53,6 @@ public class TopStoriesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
         ButterKnife.bind(this, view);
-        articles = new ArrayList<>();
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);

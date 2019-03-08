@@ -7,6 +7,7 @@ import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
 import com.app.xeross.mynews.Model.Utils.ApiInterface;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -15,8 +16,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
 /**
  * Created by XeroSs on 07/03/2019.
@@ -32,6 +31,8 @@ public class ArticlesTest {
         calls.enqueue(new Callback<ArticlesTop>() {
             @Override
             public void onResponse(Call<ArticlesTop> call, Response<ArticlesTop> response) {
+
+                Assert.assertEquals(response.body().getResults().size(), 30);
             }
 
             @Override

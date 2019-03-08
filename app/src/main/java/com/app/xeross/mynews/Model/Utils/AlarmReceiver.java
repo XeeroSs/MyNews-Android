@@ -61,9 +61,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private void notification(final Context context, final HashMap<String, String> values) {
 
-        t = preferences.getString("technologyKey", "");
-        m = preferences.getString("movieKey", "");
-
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         calls = apiInterface.getArticles(values, API_KEY);
 
@@ -74,6 +71,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 if (response.isSuccessful()) {
 
                     String str = response.body().getResponse().getDocs().get(0).getHeadline().getMain().toString();
+
+                    t = preferences.getString("technologyKey", "");
+                    m = preferences.getString("movieKey", "");
 
                     // Nous vérifions si "str" retourne le même résultat que "i"
                     if (values.containsKey("fq") && values.containsValue("movie")) {
@@ -88,7 +88,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     if (values.containsKey("fq") && values.containsValue("technology")) {
                         Toast.makeText(context, "str = " + str + "\nt = " + t, Toast.LENGTH_SHORT).show();
-                        if (!(str.equalsIgnoreCase(m))) {
+                        if (!(str.equalsIgnoreCase(t))) {
                             not(context, str, "Technology");
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("technologyKey", str);
