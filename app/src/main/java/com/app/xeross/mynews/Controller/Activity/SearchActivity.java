@@ -60,7 +60,7 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
     public SearchActivity() {
     }
 
-    // Permet de charger un HashMap graâce a un sharedpreferense
+    // Load HashMap
     public static HashMap<String, String> loadResult(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SP, MODE_PRIVATE);
         Gson gson = new Gson();
@@ -82,8 +82,6 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
         setContentView(R.layout.activity_search);
 
         ButterKnife.bind(SearchActivity.this);
-
-        // Relier à la méthode "onCheckedChanged" et permet de gérer les checkBox en temps réel
 
         technology.setOnCheckedChangeListener(this);
         movie.setOnCheckedChangeListener(this);
@@ -123,11 +121,11 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
     }
 
 
-    // Gestionnaire de CheckBox
+    // CheckBox Manager
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        // On verifie l'id de la checkbox qui à subit un changement et puis on verifie si une autre checkbox est d"ja selectionner, si c'est le cas, on la deselectionne
+        // If a checkbox is checked, we select the other checkboxes
         switch (buttonView.getId()) {
             case R.id.chechbox_movie:
                 if (isChecked) {
@@ -142,7 +140,6 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
         }
     }
 
-    // Méthode relier au bouton retour en arrière
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -218,7 +215,7 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
         editTextTo.setText(date);
     }
 
-    // On verifie si il y a eu un changement au niveau de l'edit text en temps reel, si c'est le cas, on active le boutton de recherche si l'edittext n'est pas nul
+    // EditText Manager
     private void confEditText() {
         mEditTextSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -238,7 +235,7 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
         });
     }
 
-    // Nous ajoutons les valeurs necaissaire pour la recherche d'article dans un hashMap, puis on sauvegarde ce hashmap piur le récupérer grâce à la mathode "LoadResult"
+    // Saves user information in a HashMap
     private void saveResult(String datefrom[], String dateto[], String s, HashMap<String, String> query) {
         query.put("q", s);
         query.put("begin_date", datefrom[2] + datefrom[1] + datefrom[0]);

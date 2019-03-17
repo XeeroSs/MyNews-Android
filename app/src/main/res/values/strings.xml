@@ -2,7 +2,16 @@
     <string name="app_name">MyNews</string>
     <string name="no">Open</string>
     <string name="nc">Close</string>
+
+    <string name="BASE_URL">https://api.nytimes.com/</string>
+    <string name="API_KEY">5N8dG7cChlGsyGumDjK6mGAiGoPgjRr8</string>
+    <string name="WEBVIEW">WEBVIEW</string>
+    <string name="SP">SP</string>
+    <string name="SI">SI</string>
+    <string name="SectionNot">SectionNot</string>
+    <string name="cHASHMAP">cHASHMAP</string>
     <string name="urlimage">https://static01.nyt.com/</string>
+    <string name="section">Section > </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

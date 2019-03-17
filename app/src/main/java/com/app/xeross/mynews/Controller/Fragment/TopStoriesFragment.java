@@ -1,7 +1,6 @@
 package com.app.xeross.mynews.Controller.Fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
-import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
 import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.Model.Utils.ApiCalls;
 import com.app.xeross.mynews.Model.Utils.ApiClient;
@@ -58,10 +56,11 @@ public class TopStoriesFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), articles, null, null);
+        mRecyclerViewAdapter.clearTopList();
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
-        executeRequestHTTP(apiInterface, getContext());
+        executeRequestHTTP(apiInterface);
         this.confOnClickRecyclerView();
         return view;
     }
@@ -73,13 +72,12 @@ public class TopStoriesFragment extends Fragment {
     }
 
     // Method for the network request
-    private void executeRequestHTTP(ApiInterface apiInterface, Context context) {
-        ApiCalls.requestTop((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getTopStories("movie", API_KEY));
+    private void executeRequestHTTP(ApiInterface apiInterface) {
+        ApiCalls.requestTop((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getTopStories("movies", API_KEY));
         articles.addAll(((RecyclerViewAdapter) mRecyclerView.getAdapter()).items());
         ApiCalls.requestTop((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getTopStories("technology", API_KEY));
         articles.addAll(((RecyclerViewAdapter) mRecyclerView.getAdapter()).items());
         mRecyclerViewAdapter.notifyDataSetChanged();
-
     }
 
     // Get the position and the click an item
@@ -88,9 +86,9 @@ public class TopStoriesFragment extends Fragment {
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        ArticlesSearch.Doc result = mRecyclerViewAdapter.getPosition(position);
+                        ArticlesTop.Result result = mRecyclerViewAdapter.getPositionTop(position);
                         Intent intent = new Intent(getActivity(), WebViewActivity.class);
-                        intent.putExtra(WEBVIEW, result.getWebUrl());
+                        intent.putExtra(WEBVIEW, result.getUrl());
                         getContext().startActivity(intent);
                     }
                 });

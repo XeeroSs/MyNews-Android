@@ -1,8 +1,6 @@
 package com.app.xeross.mynews.Controller.Fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -27,8 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
-import static com.app.xeross.mynews.Model.Utils.Constants.SI;
-import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
 public class TechnologyFragment extends Fragment {
@@ -57,6 +53,7 @@ public class TechnologyFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), mItemsTop, null, null);
+        mRecyclerViewAdapter.clearTopList();
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 

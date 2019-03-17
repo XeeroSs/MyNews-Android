@@ -3,9 +3,6 @@ package com.app.xeross.mynews.Model.Utils;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-/**
- * Created by XeroSs on 30/11/2018.
- */
 public class ItemClickSupport {
 
     private final RecyclerView mRecyclerView;

@@ -45,14 +45,13 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
     EditText editText;
     private AlarmManager alarmMgr;
     private Intent i;
-    private Calendar calendar;
     private PendingIntent pi;
     private ArrayList<String> sectionMap = new ArrayList<>();
     private SharedPreferences preferences;
 
     // -------------------------------------------------------------------------
 
-    // Cette méthode sers a charger le HashMap avec ses valeurs sauvegarder au paravrent
+    // HashMap recovery and values
     public static ArrayList<String> LoadSection(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SP, MODE_PRIVATE);
         Gson gson = new Gson();
@@ -76,11 +75,10 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         ButterKnife.bind(NotificationActivity.this);
         preferences = this.getSharedPreferences(SP, Context.MODE_PRIVATE);
 
-        // Relier à la méthode "onCheckedChanged" et permet de gérer les checkBox en temps réel
         technology.setOnCheckedChangeListener(this);
         movie.setOnCheckedChangeListener(this);
 
-        // Verifie si la chckbox est coché ou non
+        // Check if the CheckBox is checked or not
         movie.setChecked(loadBox("movie"));
         technology.setChecked(loadBox("technology"));
 
@@ -115,7 +113,7 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
     }
 
 
-    // Méthode relier au bouton retour en arrière
+    // Check if an item is selected in the ToolBar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -130,20 +128,18 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
     // Configuration de la Switch
     private void confSwitch() {
 
-        // Permet la switchs en temps réel
+        // Switch Manager
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                // Si l'utilisateur active la switch
                 if (isChecked) {
-
-                    // Nous vérifions si au moins une checkbox est séléctionner sinon nous désactivons la switchs
+                    // If no box is selected, the switch is disabled
                     if (!technology.isChecked() && !movie.isChecked()) {
                         Toast.makeText(NotificationActivity.this, "Aucune case sélectionnée", Toast.LENGTH_SHORT).show();
                         mSwitch.setChecked(false);
 
-                        // Sinon nous désactivons les élément de l'écran et nous démarons la classe "confAlarmManger"
+                        // Else the user can no longer interact with the checkboxes, as well as the editText. Activate the alarmManager
                     } else {
                         technology.setEnabled(false);
                         movie.setEnabled(false);
@@ -152,7 +148,7 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
                         confAlarmManager();
                     }
 
-                    // Si la switch n'est pas activer, nous activons les élément à l'écran et démarons la classe "stopNotification"
+                    // the AlarmManger is Disabled, and some elements can be interactive again
                 } else {
                     stopNotification();
                     technology.setEnabled(true);
@@ -160,21 +156,21 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
                     editText.setEnabled(true);
                 }
 
-                // Nous sauvegardons l'état de notre switch en boolean
+                // Save Switch state
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("switchkey", isChecked);
                 editor.apply();
             }
         });
 
-        // Quand l'activité et démarrer nous chargons l'état de notre switch grâce a un sharedpreferense
+        // Load Switch state
         SharedPreferences preferences = getSharedPreferences(SP, 0);
         boolean sPreferences = preferences.getBoolean("switchkey", false);
         mSwitch.setChecked(sPreferences);
     }
 
 
-    // Nous annulons l'alarm manager
+    // Cancel AlarmManger
     private void stopNotification() {
         if (alarmMgr != null) {
             alarmMgr.cancel(pi);
@@ -188,28 +184,29 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         // Gets the instances of the AlarmManager class
         alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
-        //  ici on choisis qu'elle classe va etre notre Receiver
         i = new Intent(this, AlarmReceiver.class);
         pi = PendingIntent.getBroadcast(this, 0, i, 0);
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.currentThreadTimeMillis(), 1000 * 60 * 2, pi);
     }
 
-    // Nous sauvegardons un HashMap quyi va contenir les information pour les notification
+    // Save in a SharedPreferences the hashMap that will contain the information chosen by the user
     private void saveSection(ArrayList<String> map) {
 
         map.clear();
 
-        // Si l'edit text n'est pas vide, nous l'ajoutons dans l'hashMap
+        // If the edit text is not empty, we add in the hashMap
         if (editText.getText().toString().length() == 0) {
             map.add(editText.getText().toString());
         } else {
             map.add("");
         }
 
+        // add "Technology" if the chechbox is checked
         if (technology.isChecked()) {
             map.add("technology");
         }
 
+        // add "Movie" if the chechbox is checked
         if (movie.isChecked()) {
             map.add("movie");
         }
@@ -223,11 +220,11 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
 
     }
 
-    // Gestionnaire de la checkbox
+    // CheckBox manager
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        // Nous vérfions l'id du checbox et nous sauvegardonc grâce à la méthode saveBox l'état de la checkbox
+        // Save with the saveBox method the state of the check box
         switch (buttonView.getId()) {
             case R.id.nchechbox_movie:
                 if (isChecked) {
@@ -253,18 +250,20 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         editor.apply();
     }
 
-    // Nous chargons un boolean grâce au string dans les parzmètre de la méthode
+    // Load the Box
     private boolean loadBox(String key) {
         boolean bol = preferences.getBoolean(key, false);
         return bol;
     }
 
+    // Save the EditText
     private void editTextSave(String hint) {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("hint", hint);
         editor.apply();
     }
 
+    // Load the EditText
     private String editTextLoad() {
         String str = preferences.getString("hint", "");
         return str;

@@ -45,6 +45,7 @@ public class ResultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         this.confToolbar();
 
+        // RecyclerView Configuration
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -80,6 +81,7 @@ public class ResultActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Request HTTP
     private void executeRequestHTTP(ApiInterface apiInterface, Context context) {
         query = SearchActivity.loadResult(context);
         ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));

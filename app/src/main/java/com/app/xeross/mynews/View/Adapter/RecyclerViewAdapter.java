@@ -19,6 +19,8 @@ import com.app.xeross.mynews.Model.Articles.ArticlesTop;
 import com.app.xeross.mynews.R;
 import com.squareup.picasso.Picasso;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
@@ -52,37 +54,48 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return 0;
     }
 
+    // Gets position the list articlesTop
     public ArticlesTop.Result getPositionTop(int position) {
         return this.articlesTop.get(position);
     }
 
+    // Gets position the list articlesSearch
     public ArticlesSearch.Doc getPosition(int position) {
         return this.articlesSearch.get(position);
-
     }
 
+    // Gets position the list articlesMost
     public ArticlesMost.Result getPositionMost(int position) {
         return this.articlesMost.get(position);
     }
 
-    // RecyclerView update
+    // Add all items of artclesTop in RecyclerView
     public void updateAnswersTop(ArticlesTop items) {
         articlesTop.addAll(items.getResults());
         notifyDataSetChanged();
     }
 
+    // Clear List
+    public void clearTopList() {
+        articlesTop.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add all items of articlesSearch in RecyclerView
     public void updateAnswersSearch(ArticlesSearch items) {
         articlesSearch.clear();
         articlesSearch.addAll(items.getResponse().getDocs());
         notifyDataSetChanged();
     }
 
+    // Add all items of articlesMost in RecyclerView
     public void updateAnswersMost(ArticlesMost items) {
         articlesMost.clear();
         articlesMost.addAll(items.getResults());
         notifyDataSetChanged();
     }
 
+    // Gets the list of articlesTop
     public List<ArticlesTop.Result> items() {
         return articlesTop;
     }
@@ -101,45 +114,59 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         // -------------------- ArticleSearch --------------------
         if (articlesSearch != null) {
-            holder.title.setText("Section > " + articlesSearch.get(position).getSectionName());
+            holder.title.setText(context.getResources().getString(R.string.section) + articlesSearch.get(position).getSectionName());
             holder.description.setText(articlesSearch.get(position).getHeadline().getMain());
             holder.date.setText(articlesSearch.get(position).getPubDate());
 
-            try {
-                String as = articlesSearch.get(position).getMultimedia().get(0).getUrl();
-                if (as != null)
-                    Picasso.with(context).load(context.getResources().getString(R.string.urlimage) + as).into(holder.image);
-            } catch (Exception e) {
+            // String holding the articles url
+            List<ArticlesSearch.Multimedium> listSearch = articlesSearch.get(position).getMultimedia();
 
-                e.printStackTrace();
+            if (!listSearch.isEmpty()) {
+                Picasso.with(context).load(context.getResources().getString(R.string.urlimage) + listSearch.get(0).getUrl()).into(holder.image);
+            } else {
+                holder.image.setVisibility(View.INVISIBLE);
             }
 
             // -------------------- TopStories --------------------
         } else if (articlesTop != null) {
-            holder.title.setText("Section > " + articlesTop.get(position).getSection());
+            holder.title.setText(context.getResources().getString(R.string.section) + articlesTop.get(position).getSection());
             holder.description.setText(articlesTop.get(position).getTitle());
             holder.date.setText(articlesTop.get(position).getPublishedDate());
 
-            try {
-                String at = articlesTop.get(position).getMultimedia().get(0).getUrl();
-                if (at != null) Picasso.with(context).load(at).into(holder.image);
-            } catch (Exception e) {
+            Collections.sort(articlesTop, new Comparator<ArticlesTop.Result>() {
+                @Override
+                public int compare(ArticlesTop.Result o1, ArticlesTop.Result o2) {
+                    return o2.getPublishedDate().compareTo(o1.getPublishedDate());
+                }
+            });
 
-                e.printStackTrace();
+            // String holding the articles url
+            List<ArticlesTop.Multimedium> listTop = articlesTop.get(position).getMultimedia();
+
+            if (!listTop.isEmpty()) {
+                Picasso.with(context).load(listTop.get(0).getUrl()).into(holder.image);
+            } else {
+                holder.image.setVisibility(View.INVISIBLE);
             }
 
             // -------------------- MostPopular --------------------
         } else if (articlesMost != null) {
-            holder.title.setText("Section > " + articlesMost.get(position).getSection());
+            holder.title.setText(context.getResources().getString(R.string.section) + articlesMost.get(position).getSection());
             holder.description.setText(articlesMost.get(position).getTitle());
             holder.date.setText(articlesMost.get(position).getPublishedDate());
 
-            try {
-                String am = articlesMost.get(position).getMedia().get(0).getMediaMetadata().get(0).getUrl();
-                if (am != null) Picasso.with(context).load(am).into(holder.image);
-            } catch (Exception e) {
+            // String holding the articles url
+            List<ArticlesMost.Medium> listMost1 = articlesMost.get(position).getMedia();
 
-                e.printStackTrace();
+            if (!listMost1.isEmpty()) {
+                List<ArticlesMost.MediaMetadatum> listMost2 = listMost1.get(0).getMediaMetadata();
+                if (!listMost2.isEmpty()) {
+                    Picasso.with(context).load(listMost2.get(0).getUrl()).into(holder.image);
+                } else {
+                    holder.image.setVisibility(View.INVISIBLE);
+                }
+            } else {
+                holder.image.setVisibility(View.INVISIBLE);
             }
         }
 

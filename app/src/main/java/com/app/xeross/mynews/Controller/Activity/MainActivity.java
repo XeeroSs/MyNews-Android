@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -15,10 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.app.xeross.mynews.Controller.Fragment.MostPopularFragment;
-import com.app.xeross.mynews.Controller.Fragment.MovieFragment;
-import com.app.xeross.mynews.Controller.Fragment.TechnologyFragment;
-import com.app.xeross.mynews.Controller.Fragment.TopStoriesFragment;
 import com.app.xeross.mynews.R;
 import com.app.xeross.mynews.View.Adapter.PageAdapter;
 
@@ -26,20 +21,15 @@ import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    // Identify each fragment with a number
-    private static final int FRAGMENT_NEWS = 0;
-    private static final int FRAGMENT_PROFILE = 1;
-    private static final int FRAGMENT_PARAMS = 2;
-    private static final int FRAGMENT_DS = 3;
+    private static final int FRAGMENT_MOST = 0;
+    private static final int FRAGMENT_TOP = 1;
+    private static final int FRAGMENT_TECHNO = 2;
+    private static final int FRAGMENT_MOVIE = 3;
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
-    // Declare fragment handled by Navigation Drawer
-    private Fragment fragmentNews;
-    private Fragment fragmentProfile;
-    private Fragment fragmentParams;
-    private Fragment fragmentsd;
+    private ViewPager pager;
 
 
     // -------------------------------------------------------------------------
@@ -50,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         // ------------------
-        this.confMenu();
+        this.confUI();
         // ------------------
     }
 
@@ -80,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+        // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -88,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // Manager for the DrawerLayout
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
@@ -102,21 +93,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 this.confSearch();
                 break;
             case R.id.activity_main_drawer_most:
-                this.showFragment(FRAGMENT_NEWS);
+                this.showFragment(FRAGMENT_MOST);
                 break;
             case R.id.activity_main_drawer_top:
-                this.showFragment(FRAGMENT_PROFILE);
+                this.showFragment(FRAGMENT_TOP);
                 break;
             case R.id.activity_main_drawer_techno:
-                this.showFragment(FRAGMENT_PARAMS);
+                this.showFragment(FRAGMENT_TECHNO);
                 break;
             case R.id.activity_main_drawer_movie:
-                this.showFragment(FRAGMENT_DS);
+                this.showFragment(FRAGMENT_MOVIE);
                 break;
             default:
                 break;
         }
 
+        // Close the drawerLayout
         this.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
@@ -125,10 +117,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // -------------------------------------------------------------------------
 
     // Menu configuration
-    private void confMenu() {
+    private void confUI() {
 
         //ViewPager
-        ViewPager pager = findViewById(R.id.activity_main_viewpager);
+        pager = findViewById(R.id.activity_main_viewpager);
         pager.setAdapter(new PageAdapter(getSupportFragmentManager()) {
         });
 
@@ -141,13 +133,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
 
-        // Configure Drawer Layout
+        // DrawerLayout
         this.drawerLayout = findViewById(R.id.activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.no, R.string.nc);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        // Configure NavigationView
+        // NavigationView
         this.navigationView = findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -165,51 +157,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.startActivity(i);
     }
 
-    private void showFragment(int fragmentIdentifier) {
-        switch (fragmentIdentifier) {
-            case FRAGMENT_NEWS:
-                this.showMostFragment();
+    // Search the fragment's id, then the display
+    private void showFragment(int fragmentId) {
+        switch (fragmentId) {
+            case FRAGMENT_MOST:
+                pager.setCurrentItem(0);
                 break;
-            case FRAGMENT_PROFILE:
-                this.showTopFragment();
+            case FRAGMENT_TOP:
+                pager.setCurrentItem(1);
                 break;
-            case FRAGMENT_PARAMS:
-                this.showTechnoFragment();
+            case FRAGMENT_TECHNO:
+                pager.setCurrentItem(2);
                 break;
-            case FRAGMENT_DS:
-                this.showMovieFragment();
+            case FRAGMENT_MOVIE:
+                pager.setCurrentItem(3);
                 break;
             default:
                 break;
-        }
-    }
-
-    // Create each fragment page and show it
-    private void showTopFragment() {
-        if (this.fragmentNews == null) this.fragmentNews = TopStoriesFragment.newInstance();
-        this.startFragment(this.fragmentNews);
-    }
-
-    private void showMostFragment() {
-        if (this.fragmentParams == null) this.fragmentParams = MostPopularFragment.newInstance();
-        this.startFragment(this.fragmentParams);
-    }
-
-    private void showTechnoFragment() {
-        if (this.fragmentProfile == null) this.fragmentProfile = TechnologyFragment.newInstance();
-        this.startFragment(this.fragmentProfile);
-    }
-
-    private void showMovieFragment() {
-        if (this.fragmentsd == null) this.fragmentsd = MovieFragment.newInstance();
-        this.startFragment(this.fragmentsd);
-    }
-
-    // Generic method that will replace and show a fragment inside the MainActivity Frame Layout
-    private void startFragment(Fragment fragment) {
-        if (!fragment.isVisible()) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_main_frame_layout, fragment).commit();
         }
     }
 

@@ -27,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
-import static com.app.xeross.mynews.Model.Utils.Constants.SI;
 import static com.app.xeross.mynews.Model.Utils.Constants.SP;
 import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
 
@@ -62,6 +61,7 @@ public class MovieFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), mItemsTop, null, null);
+        mRecyclerViewAdapter.clearTopList();
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 

@@ -42,24 +42,28 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, Intent intent) {
 
+        // ArrayList holding user registered information
         ArrayList<String> a = NotificationActivity.LoadSection(context);
         preferences = context.getSharedPreferences(SP, Context.MODE_PRIVATE);
 
         if (a.contains("movie")) {
+            // Create a new HashMap that will contain the information for the notification
             HashMap<String, String> mapM = new HashMap<>();
             if (!a.get(0).contains("")) mapM.put("q", a.get(0));
             mapM.put("fq", "movie");
-            notification(context, mapM);
+            request(context, mapM);
         }
         if (a.contains("technology")) {
+            // Create a new HashMap that will contain the information for the notification
             HashMap<String, String> mapT = new HashMap<>();
             if (!a.get(0).contains("")) mapT.put("q", a.get(0));
             mapT.put("fq", "technology");
-            notification(context, mapT);
+            request(context, mapT);
         }
     }
 
-    private void notification(final Context context, final HashMap<String, String> values) {
+    // Request HTTP
+    private void request(final Context context, final HashMap<String, String> values) {
 
         apiInterface = ApiClient.getClient().create(ApiInterface.class);
         calls = apiInterface.getArticles(values, API_KEY);
@@ -72,13 +76,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     String str = response.body().getResponse().getDocs().get(0).getHeadline().getMain().toString();
 
+                    // Gets the description of the last articles to notify
                     t = preferences.getString("technologyKey", "");
                     m = preferences.getString("movieKey", "");
 
-                    // Nous vérifions si "str" retourne le même résultat que "i"
                     if (values.containsKey("fq") && values.containsValue("movie")) {
+                        // Check if the description of the present article is the same as the one saved previously,
+                        // if it is not the case, save the new description, and send the notification to the user
                         if (!(str.equalsIgnoreCase(m))) {
-                            not(context, str, "Movie");
+                            notificaton(context, str, "Movie");
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("movieKey", str);
                             editor.apply();
@@ -87,7 +93,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     if (values.containsKey("fq") && values.containsValue("technology")) {
                         if (!(str.equalsIgnoreCase(t))) {
-                            not(context, str, "Technology");
+                            notificaton(context, str, "Technology");
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("technologyKey", str);
                             editor.apply();
@@ -104,8 +110,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         });
     }
 
-    private void not(Context context, String str, String section) {
-        // Nous créons et formons une notification
+    // Notification configuration
+    private void notificaton(Context context, String str, String section) {
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
         Intent i = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
@@ -121,7 +127,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentText(str)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        //
+        // Send Notification
         Notification notification = mBuilder.build();
         notificationManager.notify(0, notification);
     }
