@@ -49,21 +49,20 @@ public class ExampleUnitTest {
     @Test
     public void testCalendar() throws Exception {
 
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int fakeyear = 2019;
+        int fakemonth = 3;
+        int fakeday = 13;
 
-        month += 1;
+        fakemonth += 1;
         String z1 = "";
         String z2 = "";
-        if (month < 9) z2 = "0";
-        if (day < 9) z1 = "0";
-        String str = z1 + day + "/" + z2 + month + "/" + year;
+        if (fakemonth < 9) z2 = "0";
+        if (fakeday < 9) z1 = "0";
+        String str = z1 + fakeday + "/" + z2 + fakemonth + "/" + fakeyear;
 
         String[] date = str.toString().split("/");
 
-        Assert.assertEquals("20190313", date[2] + date[1] + date[0]);
+        Assert.assertEquals("20190413", date[2] + date[1] + date[0]);
     }
 
 }
