@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Model.Utils;
+package com.app.xeross.mynews.Utils;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

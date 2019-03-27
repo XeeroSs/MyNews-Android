@@ -81,9 +81,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
+    public void clearSearchList() {
+        articlesSearch.clear();
+        notifyDataSetChanged();
+    }
+
     // Add all items of articlesSearch in RecyclerView
     public void updateAnswersSearch(ArticlesSearch items) {
-        articlesSearch.clear();
         articlesSearch.addAll(items.getResponse().getDocs());
         notifyDataSetChanged();
     }
@@ -98,6 +102,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // Gets the list of articlesTop
     public List<ArticlesTop.Result> items() {
         return articlesTop;
+    }
+
+    public List<ArticlesSearch.Doc> itemsSearch() {
+        return articlesSearch;
     }
 
     // Creation new views
@@ -117,6 +125,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             holder.title.setText(context.getResources().getString(R.string.section) + articlesSearch.get(position).getSectionName());
             holder.description.setText(articlesSearch.get(position).getHeadline().getMain());
             holder.date.setText(articlesSearch.get(position).getPubDate());
+
+            Collections.sort(articlesSearch, new Comparator<ArticlesSearch.Doc>() {
+                @Override
+                public int compare(ArticlesSearch.Doc o1, ArticlesSearch.Doc o2) {
+                    return o2.getPubDate().compareTo(o1.getPubDate());
+                }
+            });
 
             // String holding the articles url
             List<ArticlesSearch.Multimedium> listSearch = articlesSearch.get(position).getMultimedia();

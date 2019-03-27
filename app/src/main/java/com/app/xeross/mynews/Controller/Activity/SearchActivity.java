@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -26,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,12 +33,12 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.SP;
-import static com.app.xeross.mynews.Model.Utils.Constants.cHASHMAP;
+import static com.app.xeross.mynews.Utils.Constants.SP;
+import static com.app.xeross.mynews.Utils.Constants.cHASHMAP;
 
-public class SearchActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class SearchActivity extends AppCompatActivity {
 
-    private static HashMap<String, String> query = new HashMap<>();
+    private static ArrayList<String> query = new ArrayList<>();
     @BindView(R.id.edittext_search_params)
     EditText mEditTextSearch;
     @BindView(R.id.buttun_search_params)
@@ -47,10 +47,18 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
     EditText mDateFrom;
     @BindView(R.id.date_to)
     EditText mDateTo;
-    @BindView(R.id.chechbox_technology)
-    CheckBox technology;
-    @BindView(R.id.chechbox_movie)
-    CheckBox movie;
+    @BindView(R.id.chechbox_arts)
+    CheckBox arts;
+    @BindView(R.id.chechbox_business)
+    CheckBox business;
+    @BindView(R.id.chechbox_politics)
+    CheckBox politics;
+    @BindView(R.id.chechbox_entrepreneurs)
+    CheckBox entrepreneurs;
+    @BindView(R.id.chechbox_travel)
+    CheckBox travel;
+    @BindView(R.id.chechbox_sports)
+    CheckBox sports;
     private Calendar calendar;
     private int year, month, day;
 
@@ -61,15 +69,15 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
     }
 
     // Load HashMap
-    public static HashMap<String, String> loadResult(Context context) {
+    public static ArrayList<String> loadResult(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SP, MODE_PRIVATE);
         Gson gson = new Gson();
         String json = sharedPreferences.getString(cHASHMAP, null);
-        Type type = new TypeToken<HashMap<String, String>>() {
+        Type type = new TypeToken<ArrayList<String>>() {
         }.getType();
-        HashMap<String, String> query = gson.fromJson(json, type);
+        ArrayList<String> query = gson.fromJson(json, type);
         if (query == null) {
-            query = new HashMap<>();
+            query = new ArrayList<>();
         }
         return query;
     }
@@ -82,10 +90,6 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
         setContentView(R.layout.activity_search);
 
         ButterKnife.bind(SearchActivity.this);
-
-        technology.setOnCheckedChangeListener(this);
-        movie.setOnCheckedChangeListener(this);
-
 
         // -------------------------
         this.confToolbar();
@@ -118,26 +122,6 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-    }
-
-
-    // CheckBox Manager
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        // If a checkbox is checked, we select the other checkboxes
-        switch (buttonView.getId()) {
-            case R.id.chechbox_movie:
-                if (isChecked) {
-                    technology.setChecked(false);
-                }
-                break;
-            case R.id.chechbox_technology:
-                if (isChecked) {
-                    movie.setChecked(false);
-                }
-                break;
-        }
     }
 
     @Override
@@ -236,20 +220,32 @@ public class SearchActivity extends AppCompatActivity implements CompoundButton.
     }
 
     // Saves user information in a HashMap
-    private void saveResult(String datefrom[], String dateto[], String s, HashMap<String, String> query) {
-        query.put("q", s);
-        query.put("begin_date", datefrom[2] + datefrom[1] + datefrom[0]);
-        query.put("end_date", dateto[2] + dateto[1] + dateto[0]);
+    private void saveResult(String datefrom[], String dateto[], String s, ArrayList<String> query) {
 
-        // Nous verfions si la checkbox est coché avant de l'ajouter
-        if (technology.isChecked()) {
-            query.put("fq", "Technology");
+        query.clear();
+
+        query.add(s);
+        query.add(datefrom[2] + datefrom[1] + datefrom[0]);
+        query.add(dateto[2] + dateto[1] + dateto[0]);
+
+        // Check if the checkBox is checked before adding
+        if (arts.isChecked()) {
+            query.add("arts");
         }
-        if (movie.isChecked()) {
-            query.put("fq", "Movie");
+        if (sports.isChecked()) {
+            query.add("sports");
         }
-        if (!movie.isChecked() && !technology.isChecked()) {
-            query.remove("fq");
+        if (travel.isChecked()) {
+            query.add("travel");
+        }
+        if (business.isChecked()) {
+            query.add("business");
+        }
+        if (politics.isChecked()) {
+            query.add("politics");
+        }
+        if (entrepreneurs.isChecked()) {
+            query.add("entrepreneurs");
         }
 
         SharedPreferences sharedPreferences = getSharedPreferences(SP, MODE_PRIVATE);

@@ -8,8 +8,8 @@ import android.widget.ImageView;
 import com.app.xeross.mynews.Model.Articles.ArticlesMost;
 import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
 import com.app.xeross.mynews.Model.Articles.ArticlesTop;
-import com.app.xeross.mynews.Model.Utils.ApiClient;
-import com.app.xeross.mynews.Model.Utils.ApiInterface;
+import com.app.xeross.mynews.Utils.ApiClient;
+import com.app.xeross.mynews.Utils.ApiInterface;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 import retrofit2.Call;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
+import static com.app.xeross.mynews.Utils.Constants.API_KEY;
 
 /**
  * Created by XeroSs on 07/03/2019.

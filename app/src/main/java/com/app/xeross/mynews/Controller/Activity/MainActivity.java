@@ -161,10 +161,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void showFragment(int fragmentId) {
         switch (fragmentId) {
             case FRAGMENT_MOST:
-                pager.setCurrentItem(0);
+                pager.setCurrentItem(1);
                 break;
             case FRAGMENT_TOP:
-                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
                 break;
             case FRAGMENT_TECHNO:
                 pager.setCurrentItem(2);

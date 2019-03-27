@@ -11,13 +11,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
-import com.app.xeross.mynews.Model.Utils.ApiCalls;
-import com.app.xeross.mynews.Model.Utils.ApiClient;
-import com.app.xeross.mynews.Model.Utils.ApiInterface;
-import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
 import com.app.xeross.mynews.R;
+import com.app.xeross.mynews.Utils.ApiCalls;
+import com.app.xeross.mynews.Utils.ApiClient;
+import com.app.xeross.mynews.Utils.ApiInterface;
+import com.app.xeross.mynews.Utils.ItemClickSupport;
 import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
-import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
+import static com.app.xeross.mynews.Utils.Constants.API_KEY;
+import static com.app.xeross.mynews.Utils.Constants.WEBVIEW;
 
 public class ResultActivity extends AppCompatActivity {
 
@@ -35,7 +36,7 @@ public class ResultActivity extends AppCompatActivity {
     @BindView(R.id.list)
     RecyclerView mRecyclerView;
     private RecyclerViewAdapter mRecyclerViewAdapter;
-    private HashMap<String, String> query;
+    private ArrayList<String> query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class ResultActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerViewAdapter = new RecyclerViewAdapter(this, null, articlesSearch, null);
+        mRecyclerViewAdapter.clearSearchList();
         mRecyclerView.setAdapter(mRecyclerViewAdapter);
         ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
 
@@ -84,7 +86,47 @@ public class ResultActivity extends AppCompatActivity {
     // Request HTTP
     private void executeRequestHTTP(ApiInterface apiInterface, Context context) {
         query = SearchActivity.loadResult(context);
-        ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(query, API_KEY));
+
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("q", query.get(0));
+        hm.put("begin_date", query.get(1));
+        hm.put("end_date", query.get(2));
+
+        if (query.contains("arts")) {
+            hm.put("fq", "Arts");
+            test(apiInterface, hm);
+        }
+        if (query.contains("business")) {
+            hm.put("fq", "Business");
+            test(apiInterface, hm);
+        }
+        if (query.contains("politics")) {
+            hm.put("fq", "Politics");
+            test(apiInterface, hm);
+        }
+        if (query.contains("entrepreneurs")) {
+            hm.put("fq", "Entrepreneurs");
+            test(apiInterface, hm);
+        }
+        if (query.contains("sports")) {
+            hm.put("fq", "Sports");
+            test(apiInterface, hm);
+        }
+        if (query.contains("travel")) {
+            hm.put("fq", "Travel");
+            test(apiInterface, hm);
+        }
+
+        mRecyclerViewAdapter.notifyDataSetChanged();
+
+        if (articlesSearch.isEmpty()) {
+            Toast.makeText(context, "Aucun résultat, veuillez réessayer", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void test(ApiInterface apiInterface, HashMap<String, String> hm) {
+        ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(hm, API_KEY));
+        articlesSearch.addAll(((RecyclerViewAdapter) mRecyclerView.getAdapter()).itemsSearch());
     }
 
     private void confOnClickRecyclerView() {

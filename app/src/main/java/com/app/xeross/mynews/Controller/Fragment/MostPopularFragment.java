@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 
 import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
 import com.app.xeross.mynews.Model.Articles.ArticlesMost;
-import com.app.xeross.mynews.Model.Utils.ApiCalls;
-import com.app.xeross.mynews.Model.Utils.ApiClient;
-import com.app.xeross.mynews.Model.Utils.ApiInterface;
-import com.app.xeross.mynews.Model.Utils.ItemClickSupport;
+import com.app.xeross.mynews.Utils.ApiCalls;
+import com.app.xeross.mynews.Utils.ApiClient;
+import com.app.xeross.mynews.Utils.ApiInterface;
+import com.app.xeross.mynews.Utils.ItemClickSupport;
 import com.app.xeross.mynews.R;
 import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 
@@ -27,10 +27,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.API_KEY;
-import static com.app.xeross.mynews.Model.Utils.Constants.SI;
-import static com.app.xeross.mynews.Model.Utils.Constants.SP;
-import static com.app.xeross.mynews.Model.Utils.Constants.WEBVIEW;
+import static com.app.xeross.mynews.Utils.Constants.API_KEY;
+import static com.app.xeross.mynews.Utils.Constants.SP;
+import static com.app.xeross.mynews.Utils.Constants.WEBVIEW;
 
 public class MostPopularFragment extends Fragment {
 

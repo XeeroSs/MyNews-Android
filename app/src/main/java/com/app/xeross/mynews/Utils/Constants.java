@@ -1,4 +1,4 @@
-package com.app.xeross.mynews.Model.Utils;
+package com.app.xeross.mynews.Utils;
 
 /**
  * Created by XeroSs on 29/11/2018.

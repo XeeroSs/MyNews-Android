@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,8 +16,8 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.app.xeross.mynews.Model.Utils.AlarmReceiver;
 import com.app.xeross.mynews.R;
+import com.app.xeross.mynews.Utils.AlarmReceiver;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,18 +28,26 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.SP;
-import static com.app.xeross.mynews.Model.Utils.Constants.SectionNot;
+import static com.app.xeross.mynews.Utils.Constants.SP;
+import static com.app.xeross.mynews.Utils.Constants.SectionNot;
 
 public class NotificationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
 
     @BindView(R.id.switchnotification)
     Switch mSwitch;
-    @BindView(R.id.nchechbox_movie)
-    CheckBox movie;
-    @BindView(R.id.nchechbox_technology)
-    CheckBox technology;
+    @BindView(R.id.nchechbox_arts)
+    CheckBox arts;
+    @BindView(R.id.nchechbox_business)
+    CheckBox business;
+    @BindView(R.id.nchechbox_politics)
+    CheckBox politics;
+    @BindView(R.id.nchechbox_entrepreneurs)
+    CheckBox entrepreneurs;
+    @BindView(R.id.nchechbox_travel)
+    CheckBox travel;
+    @BindView(R.id.nchechbox_sports)
+    CheckBox sports;
     @BindView(R.id.edittext_not_params)
     EditText editText;
     private AlarmManager alarmMgr;
@@ -75,12 +82,7 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         ButterKnife.bind(NotificationActivity.this);
         preferences = this.getSharedPreferences(SP, Context.MODE_PRIVATE);
 
-        technology.setOnCheckedChangeListener(this);
-        movie.setOnCheckedChangeListener(this);
-
-        // Check if the CheckBox is checked or not
-        movie.setChecked(loadBox("movie"));
-        technology.setChecked(loadBox("technology"));
+        checkbox();
 
         editText.setText(editTextLoad());
     }
@@ -92,12 +94,10 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         // --------------------
         this.confToolbar();
         this.confSwitch();
-        this.saveSection(sectionMap);
         // --------------------
     }
 
     // -------------------------------------------------------------------------
-
 
     // Toolbar configuration
     private void confToolbar() {
@@ -125,6 +125,16 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         return super.onOptionsItemSelected(item);
     }
 
+    private void userI(boolean bool) {
+        arts.setEnabled(bool);
+        politics.setEnabled(bool);
+        entrepreneurs.setEnabled(bool);
+        sports.setEnabled(bool);
+        travel.setEnabled(bool);
+        business.setEnabled(bool);
+        editText.setEnabled(bool);
+    }
+
     // Configuration de la Switch
     private void confSwitch() {
 
@@ -135,25 +145,24 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
 
                 if (isChecked) {
                     // If no box is selected, the switch is disabled
-                    if (!technology.isChecked() && !movie.isChecked()) {
+                    if (!arts.isChecked() && !business.isChecked() &&
+                            !entrepreneurs.isChecked() && !travel.isChecked() &&
+                            !sports.isChecked() && !politics.isChecked()) {
                         Toast.makeText(NotificationActivity.this, "Aucune case sélectionnée", Toast.LENGTH_SHORT).show();
                         mSwitch.setChecked(false);
 
                         // Else the user can no longer interact with the checkboxes, as well as the editText. Activate the alarmManager
                     } else {
-                        technology.setEnabled(false);
-                        movie.setEnabled(false);
-                        editText.setEnabled(false);
+                        userI(false);
                         editTextSave(editText.getText().toString());
+                        saveSection(sectionMap);
                         confAlarmManager();
                     }
 
                     // the AlarmManger is Disabled, and some elements can be interactive again
                 } else {
                     stopNotification();
-                    technology.setEnabled(true);
-                    movie.setEnabled(true);
-                    editText.setEnabled(true);
+                    userI(true);
                 }
 
                 // Save Switch state
@@ -181,12 +190,17 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
     // Configuration de L'alarmManger
     private void confAlarmManager() {
 
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 12);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+
         // Gets the instances of the AlarmManager class
         alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-
         i = new Intent(this, AlarmReceiver.class);
         pi = PendingIntent.getBroadcast(this, 0, i, 0);
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.currentThreadTimeMillis(), 1000 * 60 * 2, pi);
+
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
     }
 
     // Save in a SharedPreferences the hashMap that will contain the information chosen by the user
@@ -195,21 +209,15 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         map.clear();
 
         // If the edit text is not empty, we add in the hashMap
-        if (editText.getText().toString().length() == 0) {
-            map.add(editText.getText().toString());
-        } else {
-            map.add("");
-        }
+        map.add(editText.getText().toString());
 
         // add "Technology" if the chechbox is checked
-        if (technology.isChecked()) {
-            map.add("technology");
-        }
-
-        // add "Movie" if the chechbox is checked
-        if (movie.isChecked()) {
-            map.add("movie");
-        }
+        boxCheck(arts, map);
+        boxCheck(politics, map);
+        boxCheck(entrepreneurs, map);
+        boxCheck(business, map);
+        boxCheck(sports, map);
+        boxCheck(travel, map);
 
         SharedPreferences.Editor editor = preferences.edit();
 
@@ -220,27 +228,78 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
 
     }
 
+    private void boxCheck(CheckBox section, ArrayList<String> map) {
+        if (section.isChecked()) {
+            map.add(section.getText().toString());
+        }
+    }
+
     // CheckBox manager
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         // Save with the saveBox method the state of the check box
         switch (buttonView.getId()) {
-            case R.id.nchechbox_movie:
+            case R.id.nchechbox_arts:
                 if (isChecked) {
-                    saveBox(true, "movie");
+                    saveBox(true, "artsKey");
                 } else {
-                    saveBox(false, "movie");
+                    saveBox(false, "artsKey");
                 }
                 break;
-            case R.id.nchechbox_technology:
+            case R.id.nchechbox_business:
                 if (isChecked) {
-                    saveBox(true, "technology");
+                    saveBox(true, "businessKey");
                 } else {
-                    saveBox(false, "technology");
+                    saveBox(false, "businessKey");
+                }
+                break;
+            case R.id.nchechbox_entrepreneurs:
+                if (isChecked) {
+                    saveBox(true, "entrepreneursKey");
+                } else {
+                    saveBox(false, "entrepreneursKey");
+                }
+                break;
+            case R.id.nchechbox_travel:
+                if (isChecked) {
+                    saveBox(true, "travelKey");
+                } else {
+                    saveBox(false, "travelKey");
+                }
+                break;
+            case R.id.nchechbox_politics:
+                if (isChecked) {
+                    saveBox(true, "politicsKey");
+                } else {
+                    saveBox(false, "politicsKey");
+                }
+                break;
+            case R.id.nchechbox_sports:
+                if (isChecked) {
+                    saveBox(true, "sportsKey");
+                } else {
+                    saveBox(false, "sportsKey");
                 }
                 break;
         }
+    }
+
+    private void checkbox() {
+        politics.setOnCheckedChangeListener(this);
+        sports.setOnCheckedChangeListener(this);
+        travel.setOnCheckedChangeListener(this);
+        entrepreneurs.setOnCheckedChangeListener(this);
+        business.setOnCheckedChangeListener(this);
+        arts.setOnCheckedChangeListener(this);
+
+        // Check if the CheckBox is checked or not
+        politics.setChecked(loadBox("politicsKey"));
+        sports.setChecked(loadBox("sportsKey"));
+        travel.setChecked(loadBox("travelKey"));
+        entrepreneurs.setChecked(loadBox("entrepreneursKey"));
+        business.setChecked(loadBox("businessKey"));
+        arts.setChecked(loadBox("artsKey"));
     }
 
     // Nous auvegardons dans un sharedprefense un boolean ainsi qu'une clé

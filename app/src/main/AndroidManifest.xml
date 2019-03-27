@@ -32,7 +32,7 @@
         <activity android:name=".Controller.Activity.NotificationActivity" />
         <activity android:name=".Controller.Activity.WebViewActivity" />
 
-        <receiver android:name=".Model.Utils.AlarmReceiver">
+        <receiver android:name=".Utils.AlarmReceiver">
             <intent-filter>
                 <action android:name="AlarmReceiver" />
             </intent-filter>

@@ -1,9 +1,9 @@
-package com.app.xeross.mynews.Model.Utils;
+package com.app.xeross.mynews.Utils;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.app.xeross.mynews.Model.Utils.Constants.BASE_URL;
+import static com.app.xeross.mynews.Utils.Constants.BASE_URL;
 
 /**
  * Created by XeroSs on 22/11/2018.

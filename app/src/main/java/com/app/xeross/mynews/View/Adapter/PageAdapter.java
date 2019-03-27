@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.app.xeross.mynews.Controller.Fragment.MovieFragment;
 import com.app.xeross.mynews.Controller.Fragment.MostPopularFragment;
+import com.app.xeross.mynews.Controller.Fragment.MovieFragment;
 import com.app.xeross.mynews.Controller.Fragment.TechnologyFragment;
 import com.app.xeross.mynews.Controller.Fragment.TopStoriesFragment;
 
