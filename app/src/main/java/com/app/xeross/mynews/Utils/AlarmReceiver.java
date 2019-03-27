@@ -8,8 +8,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.app.xeross.mynews.Controller.Activity.NotificationActivity;
 import com.app.xeross.mynews.Controller.Activity.WebViewActivity;
@@ -36,6 +38,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private ApiInterface apiInterface;
     private Call<ArticlesTop> calls;
     private String t, a, b, p, o, s;
+    private NotificationManager notificationManager;
     private SharedPreferences preferences;
 
     @Override
@@ -44,6 +47,8 @@ public class AlarmReceiver extends BroadcastReceiver {
         // ArrayList holding user registered information
         ArrayList<String> a = NotificationActivity.LoadSection(context);
         preferences = context.getSharedPreferences(SP, Context.MODE_PRIVATE);
+
+        Toast.makeText(context, "test", Toast.LENGTH_SHORT).show();
 
         if (a.contains("Arts")) {
             request(context, "arts", a.get(0));
@@ -104,7 +109,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         section(section, str, s, edittext, context, url);
                     }
                     if (section.equals("travel")) {
-                        section(section, str, t, edittext, context, url);
+                        section(section, str, t , edittext, context, url);
                     }
                 }
             }
@@ -132,15 +137,19 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     // Notification configuration
     private void notificaton(Context context, String str, String section, String url) {
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
         Intent i = new Intent(context, WebViewActivity.class);
         i.putExtra(WEBVIEW, url);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, i, 0);
-        NotificationChannel channel = new NotificationChannel("12", name, importance);
-        channel.setDescription(description);
-        NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "45")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("12", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            notificationManager = context.getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "12")
                 .setContentTitle("Section: " + section)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.ic_launcher_background)
@@ -150,7 +159,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // Send Notification
         Notification notification = mBuilder.build();
-        notificationManager.notify(0, notification);
+        notificationManager.notify(loadIntNot(), notification);
         saveIntNot(loadIntNot() + 1);
     }
 

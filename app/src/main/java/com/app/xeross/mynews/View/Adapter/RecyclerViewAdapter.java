@@ -137,7 +137,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             List<ArticlesSearch.Multimedium> listSearch = articlesSearch.get(position).getMultimedia();
 
             if (!listSearch.isEmpty()) {
-                Picasso.with(context).load(context.getResources().getString(R.string.urlimage) + listSearch.get(0).getUrl()).into(holder.image);
+                Picasso.with(context).load(context.getResources().getString(R.string.urlimage) + listSearch.get(0).getUrl()).fit().into(holder.image);
             } else {
                 holder.image.setVisibility(View.INVISIBLE);
             }
@@ -159,7 +159,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             List<ArticlesTop.Multimedium> listTop = articlesTop.get(position).getMultimedia();
 
             if (!listTop.isEmpty()) {
-                Picasso.with(context).load(listTop.get(0).getUrl()).into(holder.image);
+                Picasso.with(context).load(listTop.get(0).getUrl()).fit().into(holder.image);
             } else {
                 holder.image.setVisibility(View.INVISIBLE);
             }
@@ -176,7 +176,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             if (!listMost1.isEmpty()) {
                 List<ArticlesMost.MediaMetadatum> listMost2 = listMost1.get(0).getMediaMetadata();
                 if (!listMost2.isEmpty()) {
-                    Picasso.with(context).load(listMost2.get(0).getUrl()).into(holder.image);
+                    Picasso.with(context).load(listMost2.get(0).getUrl()).fit().into(holder.image);
                 } else {
                     holder.image.setVisibility(View.INVISIBLE);
                 }
