@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
 import com.app.xeross.mynews.R;
@@ -38,6 +37,9 @@ public class ResultActivity extends AppCompatActivity {
     private RecyclerViewAdapter mRecyclerViewAdapter;
     private ArrayList<String> query;
 
+    public ResultActivity() {
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,11 @@ public class ResultActivity extends AppCompatActivity {
 
         this.executeRequestHTTP(apiInterface, this);
         this.confOnClickRecyclerView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     // Toolbar configuration
@@ -84,48 +91,50 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     // Request HTTP
-    private void executeRequestHTTP(ApiInterface apiInterface, Context context) {
+    public void executeRequestHTTP(ApiInterface apiInterface, Context context) {
+        query = new ArrayList<>();
         query = SearchActivity.loadResult(context);
 
         HashMap<String, String> hm = new HashMap<>();
         hm.put("q", query.get(0));
         hm.put("begin_date", query.get(1));
         hm.put("end_date", query.get(2));
+        int size = query.size() - 3;
 
         if (query.contains("arts")) {
             hm.put("fq", "Arts");
-            test(apiInterface, hm);
+            request(apiInterface, hm, size);
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (query.contains("business")) {
             hm.put("fq", "Business");
-            test(apiInterface, hm);
+            request(apiInterface, hm, size);
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (query.contains("politics")) {
             hm.put("fq", "Politics");
-            test(apiInterface, hm);
+            request(apiInterface, hm, size);
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (query.contains("entrepreneurs")) {
             hm.put("fq", "Entrepreneurs");
-            test(apiInterface, hm);
+            request(apiInterface, hm, size);
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (query.contains("sports")) {
             hm.put("fq", "Sports");
-            test(apiInterface, hm);
+            request(apiInterface, hm, size);
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
         if (query.contains("travel")) {
             hm.put("fq", "Travel");
-            test(apiInterface, hm);
-        }
-
-        mRecyclerViewAdapter.notifyDataSetChanged();
-
-        if (articlesSearch.isEmpty()) {
-            Toast.makeText(context, "Aucun résultat, veuillez réessayer", Toast.LENGTH_SHORT).show();
+            request(apiInterface, hm, size);
+            mRecyclerViewAdapter.notifyDataSetChanged();
         }
     }
 
-    private void test(ApiInterface apiInterface, HashMap<String, String> hm) {
-        ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(hm, API_KEY));
+    private void request(ApiInterface apiInterface, HashMap<String, String> hm, int size) {
+        ApiCalls.requestSearch((RecyclerViewAdapter) mRecyclerView.getAdapter(), apiInterface.getArticles(hm, API_KEY), this, size);
         articlesSearch.addAll(((RecyclerViewAdapter) mRecyclerView.getAdapter()).itemsSearch());
     }
 

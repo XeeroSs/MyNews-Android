@@ -1,5 +1,6 @@
 package com.app.xeross.mynews.Utils;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.app.xeross.mynews.Model.Articles.ArticlesMost;
@@ -32,16 +33,18 @@ public class ApiCalls {
                 Log.d("TAG", "Response = " + t.toString());
             }
         });
+
     }
 
     // Method for the network request
-    public static void requestSearch(final RecyclerViewAdapter recyclerViewAdapterMost, Call<ArticlesSearch> calls) {
+    public static void requestSearch(final RecyclerViewAdapter recyclerViewAdapterMost, Call<ArticlesSearch> calls, final Context context, final int size) {
         calls.enqueue(new Callback<ArticlesSearch>() {
             @Override
             public void onResponse(Call<ArticlesSearch> call, Response<ArticlesSearch> response) {
                 if (response.isSuccessful()) {
 
                     recyclerViewAdapterMost.updateAnswersSearch(response.body());
+                    recyclerViewAdapterMost.setsizeSearch(response.body().getResponse().getDocs().size(), context, size);
                 }
             }
 

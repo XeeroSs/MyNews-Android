@@ -5,6 +5,7 @@ package com.app.xeross.mynews.View.Adapter;
  */
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.xeross.mynews.Model.Articles.ArticlesMost;
 import com.app.xeross.mynews.Model.Articles.ArticlesSearch;
@@ -23,12 +25,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.app.xeross.mynews.Utils.Constants.SP;
+
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     List<ArticlesTop.Result> articlesTop;
     List<ArticlesSearch.Doc> articlesSearch;
     List<ArticlesMost.Result> articlesMost;
     Context context;
+    private SharedPreferences preferences;
 
     // Constructor
     public RecyclerViewAdapter(Context c,
@@ -39,6 +44,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.articlesTop = articlesTop;
         this.articlesSearch = articlesSearch;
         this.articlesMost = articlesMost;
+    }
+
+    public static void saveArticlesSize(int size, Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(SP, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("sizea", size);
+        editor.apply();
     }
 
     // Return the size of the list
@@ -92,6 +104,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         notifyDataSetChanged();
     }
 
+    public void setsizeSearch(int articleSize, Context context, int size) {
+        int a = loadArticlesSize(context);
+        if (articleSize == 0) {
+            a = a + 1;
+        }
+        if (a == size) {
+            Toast.makeText(context, "Aucun résultat, veuillez réessayer", Toast.LENGTH_SHORT).show();
+        } else {
+            saveArticlesSize(a, context);
+        }
+    }
+
     // Add all items of articlesMost in RecyclerView
     public void updateAnswersMost(ArticlesMost items) {
         articlesMost.clear();
@@ -102,6 +126,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // Gets the list of articlesTop
     public List<ArticlesTop.Result> items() {
         return articlesTop;
+    }
+
+    private int loadArticlesSize(Context context) {
+        preferences = context.getSharedPreferences(SP, Context.MODE_PRIVATE);
+        int i = preferences.getInt("sizea", 0);
+        return i;
     }
 
     public List<ArticlesSearch.Doc> itemsSearch() {

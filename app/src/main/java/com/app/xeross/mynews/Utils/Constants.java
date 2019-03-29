@@ -12,5 +12,7 @@ public class Constants {
     public static final String SI = "SI";
     public static final String SectionNot = "SectionNot";
     public static final String cHASHMAP = "cHASHMAP";
+    public static final String HELP = "Need help ? Thank you give you back on the site:\nhttps://openclassrooms.com";
+    public static final String ABOUT = "To contact us, thank you for using the following email:\nmynews@gmail.com";
 
 }

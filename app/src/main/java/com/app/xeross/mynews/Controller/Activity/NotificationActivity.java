@@ -189,7 +189,6 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
 
     // Configuration de L'alarmManger
     private void confAlarmManager() {
-
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, 12);
         cal.set(Calendar.MINUTE, 0);
@@ -200,7 +199,7 @@ public class NotificationActivity extends AppCompatActivity implements CompoundB
         i = new Intent(this, AlarmReceiver.class);
         pi = PendingIntent.getBroadcast(this, 0, i, 0);
 
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pi);
     }
 
     // Save in a SharedPreferences the hashMap that will contain the information chosen by the user

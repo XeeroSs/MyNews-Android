@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.app.xeross.mynews.R;
+import com.app.xeross.mynews.View.Adapter.RecyclerViewAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,7 +29,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +61,7 @@ public class SearchActivity extends AppCompatActivity {
     CheckBox sports;
     private Calendar calendar;
     private int year, month, day;
+    private RecyclerViewAdapter recyclerViewAdapter;
 
     // -------------------------------------------------------------------------
 
@@ -96,6 +97,13 @@ public class SearchActivity extends AppCompatActivity {
         this.confCalendar(mDateFrom, mDateTo);
         mButtonSearch.setEnabled(false);
         // -------------------------
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        recyclerViewAdapter = new RecyclerViewAdapter(this, null, null, null);
+        recyclerViewAdapter.saveArticlesSize(0, this);
     }
 
     @Override
@@ -209,7 +217,12 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mButtonSearch.setEnabled(s.toString().length() != 0);
+
+                if (arts.isChecked() || business.isChecked() ||
+                        entrepreneurs.isChecked() || travel.isChecked() ||
+                        sports.isChecked() || politics.isChecked()) {
+                    mButtonSearch.setEnabled(s.toString().length() != 0);
+                }
             }
 
             @Override

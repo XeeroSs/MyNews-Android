@@ -19,6 +19,9 @@ import com.app.xeross.mynews.View.Adapter.PageAdapter;
 
 import butterknife.BindView;
 
+import static com.app.xeross.mynews.Utils.Constants.ABOUT;
+import static com.app.xeross.mynews.Utils.Constants.HELP;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int FRAGMENT_MOST = 0;
@@ -57,8 +60,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_activity_main_params:
+            case R.id.menu_not:
                 this.confNotification();
+                return true;
+            case R.id.menu_help:
+                this.confOther(HELP);
+                return true;
+            case R.id.menu_about:
+                this.confOther(ABOUT);
                 return true;
             case R.id.menu_activity_main_search:
                 this.confSearch();
@@ -154,6 +163,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Activity change - SearchActivity
     private void confSearch() {
         Intent i = new Intent(MainActivity.this, SearchActivity.class);
+        this.startActivity(i);
+    }
+
+    // Activity change - OtherActivity
+    private void confOther(String other) {
+        Intent i = new Intent(MainActivity.this, OtherActivity.class);
+        i.putExtra("other", other);
         this.startActivity(i);
     }
 
